@@ -102,4 +102,13 @@ document.getElementById("upgrade7").addEventListener("click", () => {
     upgrade7Level++;
     pointCountElement.textContent = `SogCoins: ${pointCount}`;
   }
+}); // Close the event listener here
+
+// Add event listener to the upgrade8 button
+document.getElementById("upgrade8").addEventListener("click", () => {
+  if (pointCount >= upgrade8Cost) {
+    pointCount -= upgrade8Cost;
+    upgrade8Level++;
+    pointCountElement.textContent = `SogCoins: ${pointCount}`;
+  }
 });
