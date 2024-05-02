@@ -12,46 +12,46 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<script type="text/javascript" src="../main.js"></script>
+	<style>
+		body {
+			background-color: #f0f0f0;
+			font-family: Arial, sans-serif;
+			text-align: center;
+		}
+		#upgrades {
+			margin-top: 40px;
+		}
+	</style>
 </head>
 <body>
-	<h1 style="font-family: comicsans, sans-serif;">Soggy Clicker</h1>
-	<img id="clickimage" src="../assets/images/scround.png" data-tilt data-tilt-scale="1.06" />
-	<p>SogCoins: 
-	<span id="score">0</span></p>
-	<div id="upgrades">
-		<p>Upgrades:</p>
-	<button class="upgrade-button" id="upgrade1">Soggtastic Clickers (+1 point per click, 10 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade2">Soginator 6000 (+2 points per click, 50 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade3">Soggers (+4 points per click, 400 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade4">Baths (+8 points per click, 1000 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade5">Sog Factories (+16 points per click, 2500 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade6">Sogcano (+32 points per click, 32000 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade7">Fractured Sog (+64 points per click, 640000 SogCoins)</button>
-		<button class="upgrade-button" id="upgrade8">Pure Sogginess (+128 points per click, 1 Million SogCoins)</button>
-	</div>
+	<div class="container">
+		<h1>Soggy Clicker</h1>
+		<img id="clickimage" src="../assets/images/scround.png" data-tilt data-tilt-scale="1.06" />
+		<p>SogCoins: <span id="score">0</span></p>
+		<div id="upgrades">
+			<p>Upgrades:</p>
+			<button class="upgrade-button" id="upgrade1">Soggtastic Clickers (+1 point per click, 10 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade2">Soginator 6000 (+2 points per click, 50 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade3">Soggers (+4 points per click, 400 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade4">Baths (+8 points per click, 1000 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade5">Sog Factories (+16 points per click, 2500 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade6">Sogcano (+32 points per click, 32000 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade7">Fractured Sog (+64 points per click, 640000 SogCoins)</button>
+			<button class="upgrade-button" id="upgrade8">Pure Sogginess (+128 points per click, 1 Million SogCoins)</button>
+		</div>
 
-	<script>
-		let velocity = 0;
-		let spinInterval;
+		<script>
+			let velocity = 0;
+			let spinInterval;
 
-		document.getElementById('clickimage').addEventListener('click', () => {
-			velocity += 10; // increase velocity on each click
-			spinInterval = setInterval(() => {
-				document.getElementById('clickimage').style.transform = `rotate(${velocity}deg)`;
-				velocity += 0.1; // increase velocity over time
-			}, 30); // 16ms = 60fps
-			clearTimeout(slowDownTimeout); // clear the slow down timeout
-			slowDownTimeout = setTimeout(() => {
-				velocity -= 0.1; // decrease velocity over time
-				if (velocity < 0) velocity = 0;
-			}, 1000); // 100ms = 10fps
-		});
-
-		document.getElementById('clickimage').addEventListener('mouseout', () => {
-			clearInterval(spinInterval); // stop spinning when mouse is out
-		});
-
-		let slowDownTimeout;
-	</script>
-</body>
-</html>
+			document.getElementById('clickimage').addEventListener('click', () => {
+				velocity += 10; // increase velocity on each click
+				spinInterval = setInterval(() => {
+					document.getElementById('clickimage').style.transform = `rotate(${velocity}deg)`;
+					velocity += 0.1; // increase velocity over time
+				}, 30); // 16ms = 60fps
+				clearTimeout(slowDownTimeout); // clear the slow down timeout
+				slowDownTimeout = setTimeout(() => {
+					velocity -= 0.1; // decrease velocity over time
+					if (velocity < 0) velocity = 0;
+				}, 1000); // 100
