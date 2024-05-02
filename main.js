@@ -100,3 +100,6 @@ document.getElementById("upgrade6").addEventListener("click", () => {
   if (pointCount >= upgrade6Cost) {
     pointCount -= upgrade6Cost;
     upgrade6Level++;
+    pointCountElement.textContent = `SogCoins: ${pointCount}`;
+  }
+});
