@@ -11,10 +11,43 @@
   cursor: pointer; /* Pointer cursor on hover */
   transition: background-color 0.3s ease; /* Animation for background color on hover */
 }
-
-.upgrade-button:hover {
-  background-color: #E7E6E5; /* Darker green background color on hover */
-}
+.container {
+			max-width: 800px;
+			margin: 40px auto;
+			padding: 20px;
+			background-color: #fff;
+			border: 1px solid #ddd;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		h1 {
+			font-size: 36px;
+			color: #333;
+			margin-bottom: 20px;
+		}
+		#clickimage {
+			width: 200px;
+			height: 200px;
+			border-radius: 50%;
+			margin: 20px auto;
+			cursor: pointer;
+		}
+		#score {
+			font-size: 24px;
+			color: #666;
+			margin-bottom: 20px;
+		}
+		.upgrade-button {
+			background-color: #4CAF50;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.upgrade-button:hover {
+			background-color: #3e8e41;
+		}
 
 #clickableImage {
   width: 200px;
