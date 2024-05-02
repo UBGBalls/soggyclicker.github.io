@@ -96,10 +96,10 @@ document.getElementById("upgrade5").addEventListener("click", () => {
   }
 });
 
-document.getElementById("upgrade6").addEventListener("click", () => {
-  if (pointCount >= upgrade6Cost) {
-    pointCount -= upgrade6Cost;
-    upgrade6Level++;
+document.getElementById("upgrade7").addEventListener("click", () => {
+  if (pointCount >= upgrade7Cost) {
+    pointCount -= upgrade7Cost;
+    upgrade7Level++;
     pointCountElement.textContent = `SogCoins: ${pointCount}`;
   }
 });
