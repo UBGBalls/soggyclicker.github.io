@@ -1,5 +1,5 @@
 // Get the clicker image and point count element
-const clickerImage = document.getElementById("soggycat");
+const clickerImage = document.getElementById("clickimage");
 const pointCountElement = document.getElementById("score");
 
 // Initialize the point count to 0
