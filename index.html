@@ -1,15 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoggyClicker</title>
-    <link rel="stylesheet" href="styles.css">
+  <title>Clicker Game</title>
 </head>
 <body>
-    <h1>SoggyClicker</h1>
-    <img id="cat" src="../assets/images/scround.png">
-    <p>Clicks: <span id="clicks">0</span></p>
-    <script src="main.js"></script>
+  <h1>Clicker Game</h1>
+  <img id="clickableImage" src="image.png" alt="Clickable Image">
+  <button id="upgradeButton">Upgrade</button>
+  <p>Score: <span id="score">0</span></p>
+  <p>Upgrades: <span id="upgrades">0</span></p>
+
+  <script>
+    const clickableImage = document.getElementById("clickableImage");
+    const upgradeButton = document.getElementById("upgradeButton");
+    let score = 0;
+    let upgrades = 0;
+    let pointsPerClick = 1;
+
+    clickableImage.addEventListener("click", function() {
+      score += pointsPerClick;
+      document.getElementById("score").textContent = score;
+    });
+
+    upgradeButton.addEventListener("click", function() {
+      if (score >= 10) {
+        score -= 10;
+        pointsPerClick *= 2;
+        upgrades++;
+        document.getElementById("score").textContent = score;
+        document.getElementById("upgrades").textContent = upgrades;
+      }
+    });
+  </script>
 </body>
 </html>
