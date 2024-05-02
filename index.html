@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SoggyClicker</title>
+  <title>Clicker Game</title>
 </head>
 <body>
-  <h1>SoggyClicker</h1>
-  <img id="clickableImage" src="../assets/images/scround.png">
+  <h1>Clicker Game</h1>
+  <img id="clickableImage" src="image.png" alt="Clickable Image">
   <button id="upgradeButton">Upgrade</button>
   <p>Score: <span id="score">0</span></p>
   <p>Upgrades: <span id="upgrades">0</span></p>
+
+  <img id="projectileImage" src="projectile.png" style="display: none;">
 
   <script>
     const clickableImage = document.getElementById("clickableImage");
@@ -20,6 +22,22 @@
     clickableImage.addEventListener("click", function() {
       score += pointsPerClick;
       document.getElementById("score").textContent = score;
+
+      const projectile = document.getElementById("projectileImage").cloneNode(true);
+      projectile.style.left = clickableImage.offsetLeft + "px";
+      projectile.style.top = clickableImage.offsetTop + "px";
+      projectile.style.display = "block";
+      document.body.appendChild(projectile);
+
+      const interval = setInterval(function() {
+        const left = parseInt(projectile.style.left) - 5;
+        const top = parseInt(projectile.style.top);
+        projectile.style.left = left + "px";
+        if (left < -50) {
+          clearInterval(interval);
+          projectile.remove();
+        }
+      }, 20);
     });
 
     upgradeButton.addEventListener("click", function() {
