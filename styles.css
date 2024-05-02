@@ -3,38 +3,8 @@ body {
     text-align: center;
 }
 
-button {
-    font-size: 16px;
-    padding: 10px 20px;
-    margin: 10px;
+#cat {
+    width: 200px;
+    height: auto;
     cursor: pointer;
-}
-
-#upgrade {
-    background-color: green;
-    color: white;
-}
-
-#upgrade:hover {
-    background-color: darkgreen;
-}
-
-
-
-@font-face {
-  font-family: comicsans;
-  src: url('../assets/fonts/cs.TTF') format('woff2');
-  font-weight: 300 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: comicsans;
-  src: url('../assets/fonts/csI.ttf') format('woff2');
-  font-weight: 300 800;
-  font-style: italic;
-}
-
-body {
-  font-family: comicsans, sans-serif;
 }
