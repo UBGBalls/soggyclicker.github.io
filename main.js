@@ -89,5 +89,4 @@ document.addEventListener("DOMContentLoaded", function(){
     }
   });
 
-  document.getElementById("upgrade5").addEventListener("click", () => {
-    if (pointCount
+  document
