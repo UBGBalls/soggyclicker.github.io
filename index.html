@@ -1,54 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Clicker Game</title>
+  <title>SoggyClicker</title>
+  <style>
+    #clickableImage {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <h1>Clicker Game</h1>
-  <img id="clickableImage" src="../assets/images/scround.png" alt="Clickable Image">
+  <h1>SoggyClicker</h1>
+  <img id="clickableImage" src="../assets/images/scround.png">
   <button id="upgradeButton">Upgrade</button>
   <p>Score: <span id="score">0</span></p>
-  <p>Upgrades: <span id="upgrades">0</span></p>
-
-  <img id="projectileImage" src="../assets/images/scround.png" style="display: none;">
+  <p>Spinning Velocity: <span id="velocity">0</span></p>
 
   <script>
+    let score = 0;
+    let velocity = 0;
+    let velocityThreshold = 10;
+    let upgradeMultiplier = 1;
+
     const clickableImage = document.getElementById("clickableImage");
     const upgradeButton = document.getElementById("upgradeButton");
-    let score = 0;
-    let upgrades = 0;
-    let pointsPerClick = 1;
+    const scoreElement = document.getElementById("score");
+    const velocityElement = document.getElementById("velocity");
 
-    clickableImage.addEventListener("click", function() {
-      score += pointsPerClick;
-      document.getElementById("score").textContent = score;
+    clickableImage.onclick = function() {
+      score += 1 * upgradeMultiplier;
+      velocity += 1;
+      scoreElement.textContent = score;
+      velocityElement.textContent = velocity;
 
-      const projectile = document.getElementById("projectileImage").cloneNode(true);
-      projectile.style.left = clickableImage.offsetLeft + "px";
-      projectile.style.top = clickableImage.offsetTop + "px";
-      projectile.style.display = "block";
-      document.body.appendChild(projectile);
-
-      const interval = setInterval(function() {
-        const left = parseInt(projectile.style.left) - 5;
-        const top = parseInt(projectile.style.top);
-        projectile.style.left = left + "px";
-        if (left < -50) {
-          clearInterval(interval);
-          projectile.remove();
-        }
-      }, 20);
-    });
-
-    upgradeButton.addEventListener("click", function() {
-      if (score >= 10) {
-        score -= 10;
-        pointsPerClick *= 2;
-        upgrades++;
-        document.getElementById("score").textContent = score;
-        document.getElementById("upgrades").textContent = upgrades;
+      if (velocity >= velocityThreshold) {
+        clickableImage.style.position = "absolute";
+        clickableImage.style.top = "50%";
+        clickableImage.style.left = "50%";
+        clickableImage.style.transform = "translate(-50%, -50%) rotate(360deg)";
+        velocityThreshold += 10;
       }
-    });
+
+      for (let i = 0; i < 5; i++) {
+        const smallImage = document.createElement("img");
+        smallImage.src = "smallImage.png";
+        smallImage.style.position = "absolute";
+        smallImage.style.top = Math.random() * window.innerHeight + "px";
+        smallImage.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(smallImage);
+      }
+    };
+
+    upgradeButton.onclick = function() {
+      upgradeMultiplier *= 2;
+    };
   </script>
 </body>
 </html>
