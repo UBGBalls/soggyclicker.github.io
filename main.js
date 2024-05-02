@@ -100,22 +100,3 @@ document.getElementById("upgrade6").addEventListener("click", () => {
   if (pointCount >= upgrade6Cost) {
     pointCount -= upgrade6Cost;
     upgrade6Level++;
-    pointCountElement.textContent = `SogCoins: ${pointCount}`;
-  }
-});
-
-document.getElementById("upgrade7").addEventListener("click", () => {
-  if (pointCount >= upgrade7Cost) {
-    pointCount -= upgrade7Cost;
-    upgrade7Level++;
-    pointCountElement.textContent = `SogCoins: ${pointCount}`;
-  }
-});
-
-document.getElementById("upgrade8").addEventListener("click", () => {
-  if (pointCount >= upgrade8Cost) {
-    pointCount -= upgrade8Cost;
-    upgrade8Level++;
-    pointCountElement.textContent = `SogCoins: ${pointCount}`;
-  }
-});
