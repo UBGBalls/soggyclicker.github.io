@@ -53,7 +53,7 @@ body {
 
 @font-face {
   font-family: comicsans;
-  src: url('../assets/fonts/cs.ttf') format('woff2');
+  src: url('../assets/fonts/cs.TTF') format('woff2');
   font-weight: 300 800;
   font-style: normal;
 }
