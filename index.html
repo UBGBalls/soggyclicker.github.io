@@ -13,7 +13,7 @@
     </div>
 <script>
 let clickCount = 0;
-let spinSpeed = 10;
+let spinSpeed = 0;
 let spinning = false;
 
 document.getElementById('clicker-image').addEventListener('click', function () {
@@ -21,6 +21,7 @@ document.getElementById('clicker-image').addEventListener('click', function () {
     document.getElementById('click-count').innerText = 'Click count: ' + clickCount;
 
     // increase spin speed
+    spinSpeed = 10;
     spinning = true;
     spin();
 });
