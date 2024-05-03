@@ -1,36 +1,13 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
-.swirl-background {
-  background-image: radial-gradient(
-    farthest-corner at 50% 50%,
-    rgba(255, 0, 0, 0.5) 0%, /* red */
-    rgba(0, 255, 0, 0.5) 25%, /* green */
-    rgba(0, 0, 255, 0.5) 50%, /* blue */
-    rgba(255, 255, 0, 0.5) 75%, /* yellow */
-    rgba(255, 0, 0, 0.5) 100% /* red */
-  );
-  background-size: 300px 300px;
-  height: 300px;
-  width: 300px;
-}
-
-
-
-
-.clicker-container {
-    text-align: center;
-}
-
-#clicker-image {
-    width: 200px;
-    height: auto;
-    cursor: pointer;
-    transition: transform 0.5s; /* add transition for smooth spinning */
+body.swirl-background {
+    background-image: radial-gradient(
+        farthest-corner at 50% 50%,
+        rgba(255, 0, 0, 0.5) 0%,
+        rgba(0, 255, 0, 0.5) 25%,
+        rgba(0, 0, 255, 0.5) 50%,
+        rgba(255, 255, 0, 0.5) 75%,
+        rgba(255, 0, 0, 0.5) 100%
+    );
+    background-size: 300px 300px;
+    height: 300px;
+    width: 300px;
 }
