@@ -46,16 +46,7 @@ function spin() {
     }
 }
 
-// reset spin speed after a short delay
-setInterval(function () {
-    if (!spinning) {
-        spinning = false;
-        spinSpeed += 2; // increment spin speed every 10ms to slow down the spin
-        if (spinSpeed > 0) {
-            requestAnimationFrame(spin);
-        }
-    }
-}, 10);
+
 </script>
 
 </body>
