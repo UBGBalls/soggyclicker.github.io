@@ -27,7 +27,6 @@ document.getElementById('clicker-image').addEventListener('click', function () {
     spin();
 });
 
-// animation function to make the image spin
 function spin() {
     if (spinning) {
         let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
@@ -42,10 +41,10 @@ function spin() {
             requestAnimationFrame(spin);
         } else {
             spinSpeed = 0; // reset spin speed to 0 when it reaches 0
+            spinning = false; // <--- Add this line
         }
     }
 }
-
 
 </script>
 
