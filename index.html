@@ -19,9 +19,10 @@ let spinSpeed = 0;
 let spinning = false;
 let upgradeLevel = 0;
 let upgradeCost = 10;
+let clickMultiplier = 1; // new variable to keep track of the click multiplier
 
 document.getElementById('clicker-image').addEventListener('click', function () {
-    clickCount++;
+    clickCount += clickMultiplier; // increase click count by the click multiplier
     document.getElementById('click-count').innerText = 'Click count: ' + clickCount;
 
     // increase spin speed
@@ -42,7 +43,7 @@ document.getElementById('upgrade-button').addEventListener('click', function () 
         // apply upgrade effects
         switch (upgradeLevel) {
             case 1:
-                spinSpeed -= 2; // increase spin speed
+                clickMultiplier = 2; // increase click multiplier
                 break;
             case 2:
                 spinSpeed -= 4; // increase spin speed even more
