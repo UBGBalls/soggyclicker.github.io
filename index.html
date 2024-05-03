@@ -11,10 +11,10 @@
         <img id="clicker-image" src="../assets/images/scround.png" alt="Clicker Image">
         <p id="click-count">Click count: 0</p>
     </div>
-    <script src="main.js"></script>
 <script>
 let clickCount = 0;
 let spinSpeed = 0;
+let spinning = false;
 
 document.getElementById('clicker-image').addEventListener('click', function () {
     clickCount++;
@@ -23,24 +23,31 @@ document.getElementById('clicker-image').addEventListener('click', function () {
     // increase spin speed
     spinSpeed += 10;
     this.style.transform = `rotate(${spinSpeed}deg)`;
-    this.style.animation = `spin ${spinSpeed}ms linear infinite`;
-
-    // reset spin speed after a short delay
-    setTimeout((1000) => {
-        spinSpeed = 0;
-        this.style.animation = 'none';
-    }, 500);
+    spinning = true;
+    spin();
 });
 
 // animation function to make the image spin
 function spin() {
-    let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
-    document.getElementById('clicker-image').style.transform = `rotate(${currentRotation + spinSpeed}deg)`;
-    requestAnimationFrame(spin);
+    if (spinning) {
+        let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
+        document.getElementById('clicker-image').style.transform = `rotate(${currentRotation + spinSpeed}deg)`;
+        requestAnimationFrame(spin);
+    } else {
+        // slowly stop spinning
+        let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
+        spinSpeed -= 1;
+        document.getElementById('clicker-image').style.transform = `rotate(${currentRotation + spinSpeed}deg)`;
+        if (spinSpeed > 0) {
+            requestAnimationFrame(spin);
+        }
+    }
 }
 
-// start the animation loop
-spin();
+// reset spin speed after a short delay
+setTimeout(function () {
+    spinning = false;
+}, 1000);
 </script>
 
 </body>
