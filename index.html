@@ -21,7 +21,7 @@ document.getElementById('clicker-image').addEventListener('click', function () {
     document.getElementById('click-count').innerText = 'Click count: ' + clickCount;
 
     // increase spin speed
-    spinSpeed += 1;
+    spinSpeed -= 1;
     this.style.transform = `rotate(${spinSpeed}deg)`;
     spinning = true;
     spin();
@@ -36,7 +36,7 @@ function spin() {
     } else {
         // slowly stop spinning
         let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
-        spinSpeed -= 1;
+        spinSpeed += 1;
         document.getElementById('clicker-image').style.transform = `rotate(${currentRotation + spinSpeed}deg)`;
         if (spinSpeed > 0) {
             requestAnimationFrame(spin);
