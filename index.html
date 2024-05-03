@@ -2,37 +2,36 @@
 <html>
 <head>
   <title>SoggyClicker</title>
-  <style>
-    #clickableImage {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
 </head>
 <body>
   <h1>SoggyClicker</h1>
   <img id="clickableImage" src="../assets/images/scround.png">
   <button id="upgradeButton">Upgrade</button>
+  <button id="rebirthButton">Rebirth</button>
   <p>Score: <span id="score">0</span></p>
   <p>Spinning Velocity: <span id="velocity">0</span></p>
+  <p>Upgrades: <span id="upgrades">0</span></p>
+  <p>Rebirths: <span id="rebirths">0</span></p>
 
   <script>
     let score = 0;
     let velocity = 0;
     let velocityThreshold = 10;
     let upgradeMultiplier = 1;
+    let upgrades = 0;
+    let rebirths = 0;
+    let rebirthScoreMultiplier = 1;
 
     const clickableImage = document.getElementById("clickableImage");
     const upgradeButton = document.getElementById("upgradeButton");
+    const rebirthButton = document.getElementById("rebirthButton");
     const scoreElement = document.getElementById("score");
     const velocityElement = document.getElementById("velocity");
+    const upgradesElement = document.getElementById("upgrades");
+    const rebirthsElement = document.getElementById("rebirths");
 
     clickableImage.onclick = function() {
-      score += 1 * upgradeMultiplier;
+      score += 1 * upgradeMultiplier * rebirthScoreMultiplier;
       velocity += 1;
       scoreElement.textContent = score;
       velocityElement.textContent = velocity;
@@ -56,7 +55,26 @@
     };
 
     upgradeButton.onclick = function() {
-      upgradeMultiplier *= 2;
+      if (score >= 10 ** upgrades) {
+        score -= 10 ** upgrades;
+        upgradeMultiplier *= 2;
+        upgrades++;
+        upgradesElement.textContent = upgrades;
+      }
+    };
+
+    rebirthButton.onclick = function() {
+      rebirths++;
+      rebirthsElement.textContent = rebirths;
+      rebirthScoreMultiplier *= 2;
+      score = 0;
+      velocity = 0;
+      velocityThreshold = 10;
+      upgradeMultiplier = 1;
+      upgrades = 0;
+      scoreElement.textContent = score;
+      velocityElement.textContent = velocity;
+      upgradesElement.textContent = upgrades;
     };
   </script>
 </body>
