@@ -41,18 +41,8 @@ document.getElementById('upgrade-button').addEventListener('click', function () 
         upgradeCost *= 2; // increase the cost of the next upgrade
         document.getElementById('upgrade-button').innerText = `Upgrade (Cost: ${upgradeCost} clicks)`;
         // apply upgrade effects
-        switch (upgradeLevel) {
-            case 1:
-                clickMultiplier = 2; // increase click multiplier
-                break;
-            case 2:
-                spinSpeed -= 4; // increase spin speed even more
-                break;
-            case 3:
-                // add a new effect, such as changing the image or adding a particle effect
-                break;
-            // add more upgrade levels as needed
-        }
+        clickMultiplier += Math.pow(2, upgradeLevel); // increase click multiplier exponentially
+        // you can adjust the exponent to change the rate of increase
     }
 });
 
