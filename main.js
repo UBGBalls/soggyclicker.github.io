@@ -34,15 +34,19 @@ clickableImage.onclick = function() {
     velocityThreshold += 10;
   }
 
-  for (let i = 0; i < 5; i++) {
-    const smallImage = document.createElement("img");
-    smallImage.src = "smallImage.png";
-    smallImage.style.position = "absolute";
-    smallImage.style.top = Math.random() * window.innerHeight + "px";
-    smallImage.style.left = Math.random() * window.innerWidth + "px";
-    document.body.appendChild(smallImage);
-  }
-};
+for (let i = 0; i < 5; i++) {
+  const smallImage = document.createElement("img");
+  smallImage.src = "smallImage.png";
+  smallImage.style.position = "absolute";
+  smallImage.style.top = Math.random() * window.innerHeight + "px";
+  smallImage.style.left = Math.random() * window.innerWidth + "px";
+  document.body.appendChild(smallImage);
+
+  // Remove the image after 5 seconds (adjust the timeout value as needed)
+  setTimeout(() => {
+    smallImage.remove();
+  }, 5000); // 5000ms = 5 seconds
+}
 
 upgradeButton.onclick = function() {
   upgradeMultiplier *= 2;
