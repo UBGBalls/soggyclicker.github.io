@@ -1,81 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>SoggyClicker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoggyClicker</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>SoggyClicker</h1>
-  <img id="click-Image" src="../assets/images/scround.png">
-  <button id="upgradeButton">Upgrade</button>
-  <button id="rebirthButton">Rebirth</button>
-  <p>Score: <span id="score">0</span></p>
-  <p>Spinning Velocity: <span id="velocity">0</span></p>
-  <p>Upgrades: <span id="upgrades">0</span></p>
-  <p>Rebirths: <span id="rebirths">0</span></p>
-
-  <script>
-    let score = 0;
-    let velocity = 0;
-    let velocityThreshold = 10;
-    let upgradeMultiplier = 1;
-    let upgrades = 0;
-    let rebirths = 0;
-    let rebirthScoreMultiplier = 1;
-
-    const clickableImage = document.getElementById("clickableImage");
-    const upgradeButton = document.getElementById("upgradeButton");
-    const rebirthButton = document.getElementById("rebirthButton");
-    const scoreElement = document.getElementById("score");
-    const velocityElement = document.getElementById("velocity");
-    const upgradesElement = document.getElementById("upgrades");
-    const rebirthsElement = document.getElementById("rebirths");
-
-    clickableImage.onclick = function() {
-      score += 1 * upgradeMultiplier * rebirthScoreMultiplier;
-      velocity += 1;
-      scoreElement.textContent = score;
-      velocityElement.textContent = velocity;
-
-      if (velocity >= velocityThreshold) {
-        clickableImage.style.position = "absolute";
-        clickableImage.style.top = "50%";
-        clickableImage.style.left = "50%";
-        clickableImage.style.transform = "translate(-50%, -50%) rotate(360deg)";
-        velocityThreshold += 10;
-      }
-
-      for (let i = 0; i < 5; i++) {
-        const smallImage = document.createElement("img");
-        smallImage.src = "../assets/images/scroundsmall.png";
-        smallImage.style.position = "absolute";
-        smallImage.style.top = Math.random() * window.innerHeight + "px";
-        smallImage.style.left = Math.random() * window.innerWidth + "px";
-        document.body.appendChild(smallImage);
-      }
-    };
-
-    upgradeButton.onclick = function() {
-      if (score >= 10 ** upgrades) {
-        score -= 10 ** upgrades;
-        upgradeMultiplier *= 2;
-        upgrades++;
-        upgradesElement.textContent = upgrades;
-      }
-    };
-
-    rebirthButton.onclick = function() {
-      rebirths++;
-      rebirthsElement.textContent = rebirths;
-      rebirthScoreMultiplier *= 2;
-      score = 0;
-      velocity = 0;
-      velocityThreshold = 10;
-      upgradeMultiplier = 1;
-      upgrades = 0;
-      scoreElement.textContent = score;
-      velocityElement.textContent = velocity;
-      upgradesElement.textContent = upgrades;
-    };
-  </script>
+    <div class="clicker-container">
+        <img id="clicker-image" src="../assets/images/scround.png" alt="Clicker Image">
+        <p id="click-count">Click count: 0</p>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
