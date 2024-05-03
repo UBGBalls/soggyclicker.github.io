@@ -13,11 +13,34 @@
     </div>
     <script src="main.js"></script>
 <script>
-    document.getElementById('clicker-image').addEventListener('click', function () {
-    let clickCount = parseInt(document.getElementById('click-count').innerText.split(': ')[1]);
+let clickCount = 0;
+let spinSpeed = 0;
+
+document.getElementById('clicker-image').addEventListener('click', function () {
     clickCount++;
     document.getElementById('click-count').innerText = 'Click count: ' + clickCount;
+
+    // increase spin speed
+    spinSpeed += 10;
+    this.style.transform = `rotate(${spinSpeed}deg)`;
+    this.style.animation = `spin ${spinSpeed}ms linear infinite`;
+
+    // reset spin speed after a short delay
+    setTimeout(() => {
+        spinSpeed = 0;
+        this.style.animation = 'none';
+    }, 500);
 });
+
+// animation function to make the image spin
+function spin() {
+    let currentRotation = parseInt(document.getElementById('clicker-image').style.transform.split('(')[1].split('deg')[0]);
+    document.getElementById('clicker-image').style.transform = `rotate(${currentRotation + spinSpeed}deg)`;
+    requestAnimationFrame(spin);
+}
+
+// start the animation loop
+spin();
 </script>
 
 </body>
