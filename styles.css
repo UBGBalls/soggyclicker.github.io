@@ -16,4 +16,5 @@ body {
     width: 200px;
     height: auto;
     cursor: pointer;
+    transition: transform 0.5s; /* add transition for smooth spinning */
 }
