@@ -1,57 +1,29 @@
-let clicks = 0;
+// JavaScript
+let score = 0;
+let scoringRate = 1;
+let upgrades = [
+  { name: "Score Boost", cost: 10, benefit: 2 },
+  { name: "Auto-Clicker", cost: 50, benefit: 5 },
+  //...
+];
 
-document.getElementById('cat').addEventListener('click', function() {
-    clicks++;
-    document.getElementById('clicks').innerText = clicks;
+document.getElementById("click-image").addEventListener("click", () => {
+  score += scoringRate;
+  document.getElementById("score-display").innerHTML = `Score: ${score}`;
 });
 
-
-
-let score = 0;
-let velocity = 0;
-let velocityThreshold = 10;
-let upgradeMultiplier = 1;
-let rotationSpeed = 0;
-
-const clickableImage = document.getElementById("clickableImage");
-const upgradeButton = document.getElementById("upgradeButton");
-const scoreElement = document.getElementById("score");
-const velocityElement = document.getElementById("velocity");
-
-clickableImage.onclick = function() {
-  score += 1 * upgradeMultiplier;
-  velocity += 1;
-  scoreElement.textContent = score;
-  velocityElement.textContent = velocity;
-
-  rotationSpeed += 1;
-
-  if (velocity >= velocityThreshold) {
-    clickableImage.style.position = "absolute";
-    clickableImage.style.top = "50%";
-    clickableImage.style.left = "50%";
-    clickableImage.style.transform = "translate(-50%, -50%) rotate(360deg)";
-    velocityThreshold += 10;
+// Upgrade function
+function purchaseUpgrade(upgrade) {
+  if (score >= upgrade.cost) {
+    score -= upgrade.cost;
+    scoringRate += upgrade.benefit;
+    // Update upgrade list and scoring rate
   }
-
-for (let i = 0; i < 5; i++) {
-  const smallImage = document.createElement("img");
-  smallImage.src = "smallImage.png";
-  smallImage.style.position = "absolute";
-  smallImage.style.top = Math.random() * window.innerHeight + "px";
-  smallImage.style.left = Math.random() * window.innerWidth + "px";
-  document.body.appendChild(smallImage);
-
-  // Remove the image after 5 seconds (adjust the timeout value as needed)
-  setTimeout(() => {
-    smallImage.remove();
-  }, 5000); // 5000ms = 5 seconds
 }
 
-upgradeButton.onclick = function() {
-  upgradeMultiplier *= 2;
-};
-
-setInterval(function() {
-  clickableImage.style.transform = "rotate(" + rotationSpeed + "deg)";
-}, 100);
+// Rebirth function
+function rebirth() {
+  score = 0;
+  scoringRate = 1;
+  // Increase difficulty and reward player
+}
