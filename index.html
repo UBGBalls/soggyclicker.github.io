@@ -10,11 +10,15 @@
     <div class="clicker-container">
         <img id="clicker-image" src="../assets/images/scround.png" alt="Clicker Image">
         <p id="click-count">Click count: 0</p>
+        <p id="upgrade-count">Upgrades: 0</p>
+        <button id="upgrade-button">Upgrade (Cost: 10 clicks)</button>
     </div>
 <script>
 let clickCount = 0;
 let spinSpeed = 0;
 let spinning = false;
+let upgradeLevel = 0;
+let upgradeCost = 10;
 
 document.getElementById('clicker-image').addEventListener('click', function () {
     clickCount++;
@@ -25,6 +29,30 @@ document.getElementById('clicker-image').addEventListener('click', function () {
     this.style.transform = `rotate(${spinSpeed}deg)`;
     spinning = true;
     spin();
+});
+
+document.getElementById('upgrade-button').addEventListener('click', function () {
+    if (clickCount >= upgradeCost) {
+        clickCount -= upgradeCost;
+        document.getElementById('click-count').innerText = 'Click count: ' + clickCount;
+        upgradeLevel++;
+        document.getElementById('upgrade-count').innerText = 'Upgrades: ' + upgradeLevel;
+        upgradeCost *= 2; // increase the cost of the next upgrade
+        document.getElementById('upgrade-button').innerText = `Upgrade (Cost: ${upgradeCost} clicks)`;
+        // apply upgrade effects
+        switch (upgradeLevel) {
+            case 1:
+                spinSpeed -= 2; // increase spin speed
+                break;
+            case 2:
+                spinSpeed -= 4; // increase spin speed even more
+                break;
+            case 3:
+                // add a new effect, such as changing the image or adding a particle effect
+                break;
+            // add more upgrade levels as needed
+        }
+    }
 });
 
 function spin() {
