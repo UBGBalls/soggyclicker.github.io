@@ -22,7 +22,19 @@
   <div id="score">Score: 0</div>
 
   <script>
-    // JavaScript code will go here
+// JavaScript code
+document.addEventListener('DOMContentLoaded', (event) => {
+  let score = 0; // Initialize score
+
+  // Function to update the score
+  function updateScore() {
+    score++; // Increment score
+    document.getElementById('score').innerText = 'Score: ' + score; // Update score display
+  }
+
+  // Add click event listener to the button
+  document.getElementById('clicker').addEventListener('click', updateScore);
+});
   </script>
 </body>
 </html>
