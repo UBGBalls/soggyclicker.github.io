@@ -23,32 +23,67 @@
 <button id="upgrade">Upgrade Click (+1) - Cost: 10</button>
   <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-  let score = 0; // Initialize score
-  let scorePerClick = 1; // Initialize score increment per click
-  let upgradeCost = 10; // Initialize cost of the first upgrade
+  let score = parseInt(localStorage.getItem('score')) || 0;
+  let scorePerClick = parseInt(localStorage.getItem('scorePerClick')) || 1;
+  let upgrades = {
+    double: { cost: 50, multiplier: 2 },
+    triple: { cost: 150, multiplier: 3 },
+    // Add more upgrades with unique identifiers
+  };
+
+  // Function to update the score display
+  function updateScoreDisplay() {
+    document.getElementById('score').innerText = 'Score: ' + score;
+  }
 
   // Function to update the score
   function updateScore() {
-    score += scorePerClick; // Increment score by scorePerClick value
-    document.getElementById('score').innerText = 'Score: ' + score; // Update score display
+    score += scorePerClick;
+    updateScoreDisplay();
+    saveGame();
   }
 
   // Function to handle upgrade purchase
-  function purchaseUpgrade() {
-    if (score >= upgradeCost) { // Check if the player has enough score to purchase
-      score -= upgradeCost; // Deduct the cost from the score
-      scorePerClick++; // Increase the score increment per click
-      upgradeCost *= 2; // Double the cost for the next upgrade
-      document.getElementById('score').innerText = 'Score: ' + score; // Update score display
-      document.getElementById('upgrade').innerText = `Upgrade Click (+${scorePerClick}) - Cost: ${upgradeCost}`; // Update upgrade button text
+  function purchaseUpgrade(event) {
+    let upgradeKey = event.target.dataset.upgrade;
+    let upgrade = upgrades[upgradeKey];
+    if (score >= upgrade.cost) {
+      score -= upgrade.cost;
+      scorePerClick *= upgrade.multiplier;
+      upgrade.cost *= 2; // Increase the cost for the next upgrade
+      event.target.dataset.cost = upgrade.cost;
+      event.target.innerText = `${upgradeKey.charAt(0).toUpperCase() + upgradeKey.slice(1)} Click - Cost: ${upgrade.cost}`;
+      updateScoreDisplay();
+      saveGame();
     }
+  }
+
+  // Function to save the game state
+  function saveGame() {
+    localStorage.setItem('score', score);
+    localStorage.setItem('scorePerClick', scorePerClick);
+  }
+
+  // Function to load the game state
+  function loadGame() {
+    updateScoreDisplay();
+    // Update the upgrade buttons' text if needed
+    document.querySelectorAll('.upgrade').forEach(button => {
+      let upgrade = upgrades[button.dataset.upgrade];
+      button.innerText = `${button.dataset.upgrade.charAt(0).toUpperCase() + button.dataset.upgrade.slice(1)} Click - Cost: ${upgrade.cost}`;
+    });
   }
 
   // Add click event listener to the clicker button
   document.getElementById('clicker').addEventListener('click', updateScore);
 
-  // Add click event listener to the upgrade button
-  document.getElementById('upgrade').addEventListener('click', purchaseUpgrade);
+  // Add click event listener to all upgrade buttons
+  document.querySelectorAll('.upgrade').forEach(button => {
+    button.addEventListener('click', purchaseUpgrade);
+  });
+
+  // Load the game state when the DOM is ready
+  loadGame();
 });
   </script>
 </body>
