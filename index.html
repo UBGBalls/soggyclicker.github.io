@@ -20,20 +20,37 @@
 <body>
   <button id="clicker">Click me!</button>
   <div id="score">Score: 0</div>
-
+<button id="clicker">Click me!</button>
+<div id="score">Score: 0</div>
+<button id="upgrade">Upgrade Click (+1) - Cost: 10</button>
   <script>
-// JavaScript code
 document.addEventListener('DOMContentLoaded', (event) => {
   let score = 0; // Initialize score
+  let scorePerClick = 1; // Initialize score increment per click
+  let upgradeCost = 10; // Initialize cost of the first upgrade
 
   // Function to update the score
   function updateScore() {
-    score++; // Increment score
+    score += scorePerClick; // Increment score by scorePerClick value
     document.getElementById('score').innerText = 'Score: ' + score; // Update score display
   }
 
-  // Add click event listener to the button
+  // Function to handle upgrade purchase
+  function purchaseUpgrade() {
+    if (score >= upgradeCost) { // Check if the player has enough score to purchase
+      score -= upgradeCost; // Deduct the cost from the score
+      scorePerClick++; // Increase the score increment per click
+      upgradeCost *= 2; // Double the cost for the next upgrade
+      document.getElementById('score').innerText = 'Score: ' + score; // Update score display
+      document.getElementById('upgrade').innerText = `Upgrade Click (+${scorePerClick}) - Cost: ${upgradeCost}`; // Update upgrade button text
+    }
+  }
+
+  // Add click event listener to the clicker button
   document.getElementById('clicker').addEventListener('click', updateScore);
+
+  // Add click event listener to the upgrade button
+  document.getElementById('upgrade').addEventListener('click', purchaseUpgrade);
 });
   </script>
 </body>
