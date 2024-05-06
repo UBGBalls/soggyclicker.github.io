@@ -3,44 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clicker Game</title>
+    <title>Clicker Game with Options</title>
     <style>
-        /* Add your custom CSS styling here */
-        #clickImage {
-            max-width: 100%;
-            height: auto;
-            transition: transform 0.2s ease;
-            cursor: pointer;
+        /* Add your CSS styling here */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
-    <h1>Clicker Game</h1>
-    <p>Click the image to increase your score:</p>
-    <img id="clickImage" src="../assets/images/scround.png" alt="Click Image">
+    <h1>Clicker Game with Options</h1>
+    <p>Click the button to increase your score:</p>
+    <button id="clickButton">Click Me!</button>
+    <p id="score">Score: 0</p>
+
+    <!-- Upgrades -->
+    <h2>Upgrades</h2>
+    <button id="upgrade1">Upgrade 1 (Cost: 10)</button>
+    <button id="upgrade2">Upgrade 2 (Cost: 20)</button>
+
+    <!-- Rebirth -->
+    <h2>Rebirth</h2>
+    <button id="rebirthButton">Rebirth (Cost: 100)</button>
+
+    <!-- Save Game -->
+    <button id="saveButton">Save Game</button>
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle">Toggle Dark Mode</button>
+
+    <!-- Volume Control -->
+    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+    <p>Volume: <span id="volumeValue">50</span></p>
 
     <script>
-        // Initialize score and rotation speed
-        let score = parseInt(localStorage.getItem("clickerScore")) || 0;
-        let rotationSpeed = 0;
+        let score = 0;
+        let upgrade1Cost = 10;
+        let upgrade2Cost = 20;
+        let rebirthCost = 100;
 
-        // Get the image element
-        const clickImage = document.getElementById("clickImage");
+        // Load saved data (if available)
+        const savedData = JSON.parse(localStorage.getItem("clickerGameData"));
+        if (savedData) {
+            score = savedData.score;
+            upgrade1Cost = savedData.upgrade1Cost;
+            upgrade2Cost = savedData.upgrade2Cost;
+            rebirthCost = savedData.rebirthCost;
+        }
 
-        // Load saved score
-        document.getElementById("score").textContent = score;
+        const clickButton = document.getElementById("clickButton");
+        const scoreDisplay = document.getElementById("score");
+        const upgrade1Button = document.getElementById("upgrade1");
+        const upgrade2Button = document.getElementById("upgrade2");
+        const rebirthButton = document.getElementById("rebirthButton");
+        const saveButton = document.getElementById("saveButton");
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const volumeSlider = document.getElementById("volumeSlider");
+        const volumeValue = document.getElementById("volumeValue");
 
-        // Add event listener for image click
-        clickImage.addEventListener("click", () => {
+        clickButton.addEventListener("click", () => {
             score++;
-            document.getElementById("score").textContent = score;
+            scoreDisplay.textContent = `Score: ${score}`;
+        });
 
-            // Increase rotation speed based on score
-            rotationSpeed += 5;
-            clickImage.style.transform = `rotate(${rotationSpeed}deg)`;
+        // Other event listeners for upgrades, rebirth, and save...
 
-            // Save score to localStorage
-            localStorage.setItem("clickerScore", score);
+        darkModeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+        });
+
+        volumeSlider.addEventListener("input", () => {
+            const volume = volumeSlider.value;
+            volumeValue.textContent = volume;
+            // Adjust game volume based on the slider value
+            // Implement your own logic here
         });
     </script>
 </body>
