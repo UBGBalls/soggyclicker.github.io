@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clicker Game</title>
 <style>
+
+
   
 @keyframes spin {
   from { transform: rotate(0deg); }
@@ -62,6 +64,13 @@ button:hover {
 <button id="double">Upgrade Click (+1) - Cost: 10</button>
 <button id="triple">Upgrade Click (+2) - Cost: 20</button>
   <script>
+
+document.getElementById('clicker').addEventListener('click', function(event) {
+  updateScore();
+  this.classList.add('spin');
+  setTimeout(() => this.classList.remove('spin'), 500); // Animation duration is 0.5s
+});
+    
 <button id="double" class="upgrade" data-upgrade="double">Upgrade Click (+1) - Cost: 10</button>
 <button id="triple" class="upgrade" data-upgrade="triple">Upgrade Click (+2) - Cost: 20</button>
     
@@ -122,9 +131,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
       button.innerText = `${button.dataset.upgrade.charAt(0).toUpperCase() + button.dataset.upgrade.slice(1)} Click - Cost: ${upgrade.cost}`;
     });
   }
-
-  // Add click event listener to the clicker button
-  document.getElementById('clicker').addEventListener('click', updateScore);
 
   // Add click event listener to all upgrade buttons
   document.querySelectorAll('.upgrade').forEach(button => {
