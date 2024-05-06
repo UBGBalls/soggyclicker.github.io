@@ -22,6 +22,15 @@
             height: auto;
             transition: transform 0.2s ease;
         }
+        #rebirthButton {
+            margin-top: 20px;
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -30,17 +39,20 @@
     <button id="clickButton">Click Me!</button>
     <p>Score: <span id="score">0</span></p>
     <img id="gameImage" src="../assets/images/scround.png" alt="Game Image">
+    <button id="rebirthButton">Rebirth</button>
 
     <script>
-        // Initialize score and rotation speed
+        // Initialize score, rotation speed, and rebirth count
         let score = parseInt(localStorage.getItem("clickerScore")) || 0;
         let rotationSpeed = 0;
+        let rebirthCount = parseInt(localStorage.getItem("rebirthCount")) || 0;
 
         // Get the button and image elements
         const clickButton = document.getElementById("clickButton");
         const gameImage = document.getElementById("gameImage");
+        const rebirthButton = document.getElementById("rebirthButton");
 
-        // Load saved score
+        // Load saved score and rebirth count
         document.getElementById("score").textContent = score;
 
         // Add event listener for button click
@@ -54,6 +66,20 @@
 
             // Save score to localStorage
             localStorage.setItem("clickerScore", score);
+        });
+
+        // Add event listener for rebirth button
+        rebirthButton.addEventListener("click", () => {
+            // Perform rebirth
+            score = 0;
+            rebirthCount++;
+            localStorage.setItem("clickerScore", score);
+            localStorage.setItem("rebirthCount", rebirthCount);
+
+            // Apply rebirth bonuses (customize as needed)
+            // Example: Increase click multiplier
+            const clickMultiplier = 1 + rebirthCount * 0.1;
+            console.log(`Rebirth Bonus: +${clickMultiplier * 100}% click multiplier`);
         });
     </script>
 </body>
