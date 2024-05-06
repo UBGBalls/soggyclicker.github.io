@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoggyClicker</title>
-    <link rel="stylesheet" href="../styles.css">
+    <title>Clicker Game</title>
+    <style>
+        /* We will add CSS here later */
+        #game-container {
+            text-align: center;
+            padding-top: 50px;
+        }
+        #click-button {
+            padding: 10px 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #score-display {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
 </head>
 <body>
     <div id="game-container">
-        <img id="clicker" src="../assets/images/scround.png" alt="Wet Cat">
-        <div id="score-container">
-            <p>Points: <span id="points">0</span></p>
-        </div>
-        <button id="wet-cat">Dry the Cat!</button>
-        <div id="upgrades-container">
-            <button id="buy-bath">Buy Bath (10 Points)</button>
-            <p>Baths: <span id="baths">0</span></p>
-        </div>
-        <div id="autoclickers-container">
-            <button id="buy-sogger">Hire Sogger (100 Points)</button>
-            <p>Soggers: <span id="soggers">0</span></p>
-        </div>
-        <div id="rebirth-container">
-            <button id="rebirth">Rebirth</button>
-        </div>
+        <button id="click-button">Click me!</button>
+        <div id="score-display">Score: 0</div>
     </div>
-    <script src="../script.js"></script>
+
+    <script>
+        // JavaScript will go here
+    </script>
 </body>
 </html>
