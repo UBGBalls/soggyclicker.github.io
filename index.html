@@ -28,7 +28,17 @@
     </div>
 
     <script>
-        // JavaScript will go here
+// JavaScript will go here
+document.addEventListener('DOMContentLoaded', function() {
+    var score = 0;
+    var scoreDisplay = document.getElementById('score-display');
+    var clickButton = document.getElementById('click-button');
+
+    clickButton.addEventListener('click', function() {
+        score++; // Increment the score
+        scoreDisplay.textContent = 'Score: ' + score; // Update the display
+    });
+});
     </script>
 </body>
 </html>
