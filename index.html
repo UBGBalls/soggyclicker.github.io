@@ -2,6 +2,16 @@
 <html>
 <head>
     <style>
+        body {
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
         .loader {
             border: 16px solid #f3f3f3;
             border-radius: 50%;
@@ -9,6 +19,7 @@
             width: 120px;
             height: 120px;
             animation: spin 2s linear infinite;
+            margin-bottom: 20px;
         }
 
         @keyframes spin {
@@ -19,5 +30,6 @@
 </head>
 <body>
     <div class="loader"></div>
+    <p>Soggyclicker is loading...</p>
 </body>
 </html>
