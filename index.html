@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clicker Game</title>
 <style>
+  
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.spin {
+  animation: spin 0.5s ease-in-out;
+}
 body {
   font-family: 'Arial', sans-serif;
   text-align: center;
@@ -54,6 +62,15 @@ button:hover {
 <button id="double">Upgrade Click (+1) - Cost: 10</button>
 <button id="triple">Upgrade Click (+2) - Cost: 20</button>
   <script>
+<button id="double" class="upgrade" data-upgrade="double">Upgrade Click (+1) - Cost: 10</button>
+<button id="triple" class="upgrade" data-upgrade="triple">Upgrade Click (+2) - Cost: 20</button>
+    
+document.getElementById('clicker').addEventListener('click', function(event) {
+  updateScore();
+  this.classList.add('spin');
+  setTimeout(() => this.classList.remove('spin'), 500); // Animation duration is 0.5s
+});
+    
 document.addEventListener('DOMContentLoaded', (event) => {
   let score = parseInt(localStorage.getItem('score')) || 0;
   let scorePerClick = parseInt(localStorage.getItem('scorePerClick')) || 1;
