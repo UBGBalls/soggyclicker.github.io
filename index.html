@@ -5,40 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicker Game</title>
     <style>
-        /* We will add CSS here later */
-        #game-container {
-            text-align: center;
-            padding-top: 50px;
-        }
-        #click-button {
+        /* Add your custom CSS styling here */
+        #clickButton {
+            background-color: #3498db;
+            color: #fff;
             padding: 10px 20px;
-            font-size: 20px;
+            border: none;
             cursor: pointer;
+            font-size: 16px;
         }
-        #score-display {
-            margin-top: 20px;
-            font-size: 24px;
+        #clickButton:hover {
+            background-color: #2980b9;
+        }
+        #gameImage {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="game-container">
-        <button id="click-button">Click me!</button>
-        <div id="score-display">Score: 0</div>
-    </div>
+    <h1>Clicker Game</h1>
+    <p>Click the button to increase your score:</p>
+    <button id="clickButton">Click Me!</button>
+    <p>Score: <span id="score">0</span></p>
+    <img id="gameImage" src="../asstes/images/scround.png" alt="Game Image">
 
     <script>
-// JavaScript will go here
-document.addEventListener('DOMContentLoaded', function() {
-    var score = 0;
-    var scoreDisplay = document.getElementById('score-display');
-    var clickButton = document.getElementById('click-button');
+        // Initialize score
+        let score = 0;
 
-    clickButton.addEventListener('click', function() {
-        score++; // Increment the score
-        scoreDisplay.textContent = 'Score: ' + score; // Update the display
-    });
-});
+        // Get the button element
+        const clickButton = document.getElementById("clickButton");
+
+        // Add event listener for button click
+        clickButton.addEventListener("click", () => {
+            score++;
+            document.getElementById("score").textContent = score;
+        });
     </script>
 </body>
 </html>
