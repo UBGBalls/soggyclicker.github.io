@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            position: relative;
         }
 
         .loader {
@@ -42,10 +43,24 @@
             50% {opacity: 0;}
             100% {opacity: 1;}
         }
+
+        .coming-soon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
     <div class="loader"></div>
-    <p>    Soggyclicker is loading...</p>
+    <p>Soggyclicker is loading...</p>
+    <a href="https://www.example.com" class="coming-soon">Soggyclicker Coming Soon</a>
 </body>
 </html>
