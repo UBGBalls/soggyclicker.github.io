@@ -20,7 +20,7 @@ clickerButton.addEventListener('click', function() {
   clickerButton.style.animationDuration = `${Math.max(0.2 - spinSpeed, 0.05)}s`;
 });
 
-// Optional: Reset spin on animation iteration
+// Optioal: Reset spin on animation iteration
 clickerButton.addEventListener('animationiteration', function() {
   if (spinSpeed > 0.2) {
     clickerButton.style.animationDuration = `${Math.max(0.2 - spinSpeed, 0.05)}s`;
