@@ -20,6 +20,7 @@
         #gameImage {
             max-width: 100%;
             height: auto;
+            transition: transform 0.2s ease;
         }
     </style>
 </head>
@@ -28,19 +29,31 @@
     <p>Click the button to increase your score:</p>
     <button id="clickButton">Click Me!</button>
     <p>Score: <span id="score">0</span></p>
-    <img id="gameImage" src="../asstes/images/scround.png" alt="Game Image">
+    <img id="gameImage" src="../assets/images/scround.png" alt="Game Image">
 
     <script>
-        // Initialize score
-        let score = 0;
+        // Initialize score and rotation speed
+        let score = parseInt(localStorage.getItem("clickerScore")) || 0;
+        let rotationSpeed = 0;
 
-        // Get the button element
+        // Get the button and image elements
         const clickButton = document.getElementById("clickButton");
+        const gameImage = document.getElementById("gameImage");
+
+        // Load saved score
+        document.getElementById("score").textContent = score;
 
         // Add event listener for button click
         clickButton.addEventListener("click", () => {
             score++;
             document.getElementById("score").textContent = score;
+
+            // Increase rotation speed based on score
+            rotationSpeed += 5;
+            gameImage.style.transform = `rotate(${rotationSpeed}deg)`;
+
+            // Save score to localStorage
+            localStorage.setItem("clickerScore", score);
         });
     </script>
 </body>
