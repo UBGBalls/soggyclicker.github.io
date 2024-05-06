@@ -1,43 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... [rest of the head content] ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wet Cat Clicker Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <button id="clicker">Click me!</button>
-  <div id="score">Score: 0</div>
-  <button id="double" class="upgrade" data-upgrade="double">Upgrade Click (+1) - Cost: 10</button>
-  <button id="triple" class="upgrade" data-upgrade="triple">Upgrade Click (+2) - Cost: 20</button>
-  <script>
-    let score = parseInt(localStorage.getItem('score')) || 0;
-    let scorePerClick = parseInt(localStorage.getItem('scorePerClick')) || 1;
-    let upgrades = {
-      double: { cost: 50, multiplier: 2 },
-      triple: { cost: 150, multiplier: 3 },
-      // Add more upgrades with unique identifiers
-    };
-
-    // Function to update the score display
-    function updateScoreDisplay() {
-      document.getElementById('score').innerText = 'Score: ' + score;
-    }
-
-    // Function to update the score
-    function updateScore() {
-      score += scorePerClick;
-      updateScoreDisplay();
-      saveGame();
-    }
-
-    // ... [rest of the script content] ...
-
-    document.getElementById('clicker').addEventListener('click', function(event) {
-      updateScore();
-      this.classList.add('spin');
-      setTimeout(() => this.classList.remove('spin'), 500); // Animation duration is 0.5s
-    });
-
-    // ... [rest of the script content] ...
-  </script>
+    <div id="game-container">
+        <img id="wet-cat" src="path-to-your-wet-cat-image.png" alt="Wet Cat">
+        <div id="score-container">
+            <p>Points: <span id="points">0</span></p>
+        </div>
+        <button id="clicker">Dry the Cat!</button>
+        <div id="upgrades-container">
+            <button id="buy-bath">Buy Bath (10 Points)</button>
+            <p>Baths: <span id="baths">0</span></p>
+        </div>
+        <div id="autoclickers-container">
+            <button id="buy-sogger">Hire Sogger (100 Points)</button>
+            <p>Soggers: <span id="soggers">0</span></p>
+        </div>
+        <div id="rebirth-container">
+            <button id="rebirth">Rebirth</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
