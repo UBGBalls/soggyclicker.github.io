@@ -10,18 +10,26 @@
         text-align: center;
         margin: 0;
         padding: 0;
+        background-image: url('background.jpg'); /* Add your background image URL here */
+        background-size: cover;
+        background-position: center;
         transition: background-color 0.3s, color 0.3s;
     }
     .light {
-        background-color: #f8f9fa;
+        background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white overlay for better contrast */
         color: #333;
     }
     .dark {
-        background-color: #333;
+        background-color: rgba(0, 0, 0, 0.8); /* Add a semi-transparent black overlay for better contrast */
         color: #f8f9fa;
     }
     h1 {
         margin-top: 50px;
+        color: #333;
+    }
+    #header-img {
+        width: 200px; /* Adjust the width of the header image */
+        height: auto;
     }
     #clickArea {
         margin-top: 30px;
@@ -112,10 +120,14 @@
 </head>
 <body class="light">
 
+<div id="header">
+    <img src="header-image.jpg" alt="Header Image" id="header-img"> <!-- Add your header image here -->
+</div>
+
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../assets/images/sc4.png" alt="Click me!" id="clickButton">
+    <img src="../images/assets/scround.png" alt="Click me!" id="clickButton">
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
