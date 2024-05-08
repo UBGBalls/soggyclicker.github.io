@@ -1,30 +1,31 @@
-let clicks = 0;
-let clickPerClick = 1;
-let lastClickTime = 0;
-
-const clickButton = document.getElementById("click-button");
-const clickDisplay = document.getElementById("clicks");
+const scoreElement = document.getElementById("score");
+const catImage = document.getElementById("cat-image");
 const upgradeButton = document.getElementById("upgrade-button");
 
-upgradeButton.addEventListener("click", buyUpgrade);
+let score = 0;
+let autoClicker = false;
 
-clickButton.addEventListener("click", () => {
-  const currentTime = Date.now();
-  const clickSpeed = 1000 / (currentTime - lastClickTime); // Milliseconds between clicks
-  lastClickTime = currentTime;
+function clickCat() {
+  score++;
+  scoreElement.textContent = `Score: ${score}`;
+}
 
-  clicks += clickPerClick;
-  clickDisplay.textContent = clicks;
-  checkUpgradeAvailability();
+function autoClick() {
+  if (autoClicker) {
+    clickCat();
+    setTimeout(autoClick, 1000); // Click every second
+  }
+}
 
-  // Update button rotation based on click speed (capped at 3 rotations/second)
-  clickButton.style.transform = `rotate(${Math.min(clickSpeed * 3, 360)}deg)`;
+catImage.addEventListener("click", clickCat);
+
+upgradeButton.addEventListener("click", () => {
+  if (score >= 10) {
+    score -= 10;
+    scoreElement.textContent = `Score: ${score}`;
+    autoClicker = true;
+    upgradeButton.textContent = "Autoclicker (Active)";
+    upgradeButton.disabled = true;
+    autoClick();
+  }
 });
-
-function buyUpgrade() {
-  // ... (same logic as before)
-}
-
-function checkUpgradeAvailability() {
-  // ... (same logic as before)
-}
