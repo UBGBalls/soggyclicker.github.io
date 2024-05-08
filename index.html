@@ -10,7 +10,24 @@
         text-align: center;
         margin: 0;
         padding: 0;
-        background-color: #f2f2f2;
+        background-image: url('custom-background.jpg');
+        background-size: cover;
+    }
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .game-container {
+        flex-grow: 1;
+        max-width: 60%;
+    }
+    .sidebar {
+        width: 30%;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
     }
     h1 {
         color: #333;
@@ -115,22 +132,33 @@
     <img src="header-image.jpg" alt="Header Image" id="header-img">
 </div>
 
-<h1>Clicker Game</h1>
+<div class="container">
+    <div class="game-container">
+        <h1>Clicker Game</h1>
 
-<div id="clickArea">
-    <button id="clickButton" class="clicker-button">Click me!</button>
-</div>
+        <div id="clickArea">
+            <button id="clickButton" class="clicker-button">Click me!</button>
+        </div>
 
-<div id="score">Score: <span id="scoreValue">0</span></div>
+        <div id="score">Score: <span id="scoreValue">0</span></div>
 
-<div id="upgrades">
-    <div id="upgradeButtons">
-        <button class="upgrade-btn" id="clickUpgrade" data-multiplier="1.1" data-base-cost="10">Upgrade (+10% per click)</button>
-        <button class="upgrade-btn" id="pointUpgrade" data-multiplier="1.1" data-base-cost="20">Upgrade (+10% per click)</button>
+        <div id="upgrades">
+            <div id="upgradeButtons">
+                <button class="upgrade-btn" id="clickUpgrade" data-multiplier="1.1" data-base-cost="10">Upgrade (+10% per click): 10</button>
+                <button class="upgrade-btn" id="pointUpgrade" data-multiplier="1.1" data-base-cost="20">Upgrade (+10% per click): 20</button>
+                <button class="upgrade-btn" id="clickPowerUpgrade" data-multiplier="2" data-base-cost="50">Click Power Upgrade (x2): 50</button>
+                <button class="upgrade-btn" id="autoClickerUpgrade" data-multiplier="1" data-base-cost="100">Auto Clicker Upgrade (+1/s): 100</button>
+            </div>
+        </div>
+
+        <button id="rebirthBtn">Rebirth</button>
+    </div>
+
+    <div class="sidebar">
+        <h2>Upgrades Owned</h2>
+        <div id="upgradeCount">0</div>
     </div>
 </div>
-
-<button id="rebirthBtn">Rebirth</button>
 
 <button id="toggleDarkModeBtn">Toggle Dark Mode</button>
 
@@ -138,6 +166,7 @@
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
     let clickValue = localStorage.getItem('clickValue') ? parseFloat(localStorage.getItem('clickValue')) : 1;
     let rebirthCount = localStorage.getItem('rebirthCount') ? parseInt(localStorage.getItem('rebirthCount')) : 0;
+    let upgradesOwned = 0;
     let lastClickTime = Date.now();
     let lastSpinSpeed = 500; // Default spin speed
     let spinInterval = null;
@@ -146,6 +175,7 @@
     const scoreValue = document.getElementById('scoreValue');
     const upgradeButtons = document.querySelectorAll('.upgrade-btn');
     const rebirthBtn = document.getElementById('rebirthBtn');
+    const upgradeCountDisplay = document.getElementById('upgradeCount');
     const toggleDarkModeBtn = document.getElementById('toggleDarkModeBtn');
 
     // Function to update the score display
@@ -158,6 +188,7 @@
         localStorage.setItem('score', score);
         localStorage.setItem('clickValue', clickValue);
         localStorage.setItem('rebirthCount', rebirthCount);
+        localStorage.setItem('upgradesOwned', upgradesOwned);
     };
 
     // Initialize the score display
@@ -204,6 +235,8 @@
                 button.textContent = `Upgrade: ${newCost}`; // Update button text with new cost
                 updateScoreDisplay();
                 saveProgress();
+                upgradesOwned++;
+                upgradeCountDisplay.textContent = upgradesOwned;
             } else {
                 alert('You need more points to purchase this upgrade!');
             }
@@ -213,7 +246,7 @@
     rebirthBtn.addEventListener('click', () => {
         if (score >= 1000) { // Example cost for rebirth
             score = 0;
-            clickValue = 1 + rebirthCount * 0.1; // Adjust click value after each rebirth
+            clickValue *= 2; // Increase click value after rebirth
             rebirthCount++;
             updateScoreDisplay();
             saveProgress();
@@ -230,6 +263,8 @@
             const baseCost = parseInt(button.getAttribute('data-base-cost'));
             button.textContent = `Upgrade: ${baseCost}`; // Reset button text to base cost
         });
+        upgradesOwned = 0;
+        upgradeCountDisplay.textContent = upgradesOwned;
     };
 
     // Toggle dark mode
