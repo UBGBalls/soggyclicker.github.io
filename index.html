@@ -35,18 +35,27 @@
         margin-top: 20px;
         color: #333;
     }
-    .spin {
-        animation: spin linear infinite;
+    #upgrades {
+        margin-top: 20px;
     }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+    .upgrade-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+    }
+    .upgrade-btn:hover {
+        background-color: #0056b3;
     }
 </style>
 </head>
 <body>
 
-<h1>Clicker Game</h1>
+<h1>Clicker Game
+</h1>
 
 <div id="clickArea">
     <img src="../images/assets/scround.png" alt="Click me!" id="clickButton">
@@ -54,20 +63,43 @@
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
 
+<div id="upgrades">
+    <button class="upgrade-btn" id="upgrade1" data-cost="10">Upgrade 1 (+1 per click)</button>
+    <button class="upgrade-btn" id="upgrade2" data-cost="50">Upgrade 2 (+2 per click)</button>
+    <button class="upgrade-btn" id="upgrade3" data-cost="100">Upgrade 3 (+5 per click)</button>
+</div>
+
 <script>
-    let score = 0;
+    let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+    let clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
     let lastClickTime = Date.now();
 
     const clickButton = document.getElementById('clickButton');
     const scoreValue = document.getElementById('scoreValue');
+    const upgradeButtons = document.querySelectorAll('.upgrade-btn');
+
+    // Function to update the score display
+    const updateScoreDisplay = () => {
+        scoreValue.textContent = score;
+    };
+
+    // Function to save progress to local storage
+    const saveProgress = () => {
+        localStorage.setItem('score', score);
+        localStorage.setItem('clickValue', clickValue);
+    };
+
+    // Initialize the score display
+    updateScoreDisplay();
 
     clickButton.addEventListener('click', () => {
         const currentTime = Date.now();
         const timeDifference = currentTime - lastClickTime;
         lastClickTime = currentTime;
 
-        score++;
-        scoreValue.textContent = score;
+        score += clickValue;
+        updateScoreDisplay();
+        saveProgress();
 
         const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
         clickButton.style.transitionDuration = spinSpeed + 'ms';
@@ -76,6 +108,25 @@
         setTimeout(() => {
             clickButton.classList.remove('spin');
         }, spinSpeed);
+    });
+
+    upgradeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const cost = parseInt(button.getAttribute('data-cost'));
+            if (score >= cost) {
+                score -= cost;
+                updateScoreDisplay();
+                saveProgress();
+                const upgradeId = button.getAttribute('id');
+                if (upgradeId === 'upgrade1') {
+                    clickValue += 1;
+                } else if (upgradeId === 'upgrade2') {
+                    clickValue += 2;
+                } else if (upgradeId === 'upgrade3') {
+                    clickValue += 5;
+                }
+            }
+        });
     });
 </script>
 
