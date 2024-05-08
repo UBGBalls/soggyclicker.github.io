@@ -1,26 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clicker Game</title>
-  <style>
-    #click-button {
-      transition: transform 0.2s ease-in-out;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+        }
+        #image {
+            cursor: pointer;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
 </head>
 <body>
-  <h1>Clicker!</h1>
-  <p>Clicks: <span id="clicks">0</span></p>
+    <h1>Click the Cat!</h1>
+    <img id="image" src="cat.png" alt="Cat">
+    <p id="score">Score: 0</p>
+    <script>
+        const image = document.getElementById('image');
+        const scoreElement = document.getElementById('score');
+        let score = 0;
 
-  <div id="upgrades">
-    <h2>Upgrades</h2>
-    <button id="upgrade-button">Cursor (10 clicks) - +1 click/click</button>
-  </div>
-
-  <button id="click-button">Click Me</button>
-
-  <script src="script.js"></script>
+        image.addEventListener('click', () => {
+            score++;
+            scoreElement.textContent = `Score: ${score}`;
+        });
+    </script>
 </body>
 </html>
