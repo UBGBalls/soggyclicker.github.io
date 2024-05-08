@@ -1,32 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SoggyClicker</title>
-  <style>
-   .thesog {
-      background-color: #4CAF50;
-      border: none;
-      color: white;
-      padding: 15px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clicker Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
     }
-  </style>
+    h1 {
+        margin-top: 50px;
+        color: #333;
+    }
+    #clickArea {
+        margin-top: 30px;
+    }
+    #clickButton {
+        cursor: pointer;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        transition: transform 0.2s;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #clickButton:hover {
+        transform: scale(1.1);
+    }
+    #score {
+        font-size: 24px;
+        margin-top: 20px;
+        color: #333;
+    }
+    .spin {
+        animation: spin linear infinite;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
 </head>
 <body>
-  <h1>Soggy Clicker</h1>
-  <button class="thesog">
-    <img src="../assets/images/scround.png" alt="SoggyCat">
-  </button>
 
-  <script>
-    // Your script code here
-  </script>
+<h1>Clicker Game</h1>
+
+<div id="clickArea">
+    <img src="https://via.placeholder.com/200" alt="Click me!" id="clickButton">
+</div>
+
+<div id="score">Score: <span id="scoreValue">0</span></div>
+
+<script>
+    let score = 0;
+    let lastClickTime = Date.now();
+
+    const clickButton = document.getElementById('clickButton');
+    const scoreValue = document.getElementById('scoreValue');
+
+    clickButton.addEventListener('click', () => {
+        const currentTime = Date.now();
+        const timeDifference = currentTime - lastClickTime;
+        lastClickTime = currentTime;
+
+        score++;
+        scoreValue.textContent = score;
+
+        const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
+        clickButton.style.transitionDuration = spinSpeed + 'ms';
+        clickButton.classList.add('spin');
+
+        setTimeout(() => {
+            clickButton.classList.remove('spin');
+        }, spinSpeed);
+    });
+</script>
+
 </body>
 </html>
