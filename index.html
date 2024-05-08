@@ -8,13 +8,20 @@
     body {
         font-family: Arial, sans-serif;
         text-align: center;
-        background-color: #f8f9fa;
         margin: 0;
         padding: 0;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+    .dark {
+        background-color: #333;
+        color: #f8f9fa;
     }
     h1 {
         margin-top: 50px;
-        color: #333;
     }
     #clickArea {
         margin-top: 30px;
@@ -33,7 +40,6 @@
     #score {
         font-size: 24px;
         margin-top: 20px;
-        color: #333;
     }
     #upgrades {
         margin-top: 20px;
@@ -55,9 +61,35 @@
     .upgrade-btn:hover {
         background-color: #0056b3;
     }
+    #rebirthBtn {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+    #rebirthBtn:hover {
+        background-color: #c82333;
+    }
+    #toggleDarkModeBtn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    #toggleDarkModeBtn:hover {
+        background-color: #0056b3;
+    }
 </style>
 </head>
-<body>
+<body class="light">
 
 <h1>Clicker Game</h1>
 
@@ -80,10 +112,11 @@
         <h3>Tier 3</h3>
         <button class="upgrade-btn" id="upgrade3" data-cost="100" disabled>Upgrade 3 (+5 per click)</button>
     </div>
-    <!-- Add more tiers and upgrades as needed -->
 </div>
 
 <button id="rebirthBtn">Rebirth</button>
+
+<button id="toggleDarkModeBtn">Toggle Dark Mode</button>
 
 <script>
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
@@ -94,6 +127,7 @@
     const scoreValue = document.getElementById('scoreValue');
     const upgradeButtons = document.querySelectorAll('.upgrade-btn');
     const rebirthBtn = document.getElementById('rebirthBtn');
+    const toggleDarkModeBtn = document.getElementById('toggleDarkModeBtn');
 
     // Function to update the score display
     const updateScoreDisplay = () => {
@@ -170,6 +204,11 @@
             button.disabled = false;
         });
     };
+
+    // Toggle dark mode
+    toggleDarkModeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+    });
 </script>
 
 </body>
