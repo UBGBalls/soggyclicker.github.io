@@ -4,50 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clicker Game</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            text-align: center;
-        }
-        #image {
-            cursor: pointer;
-            width: 200px;
-            height: 200px;
-            animation: spin 0s linear;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Click the Cat!</h1>
-    <img id="image" src="../assets/images/scround.png" alt="Cat">
-    <p id="score">Score: 0</p>
-    <script>
-        const image = document.getElementById('image');
-        const scoreElement = document.getElementById('score');
-        let score = 0;
-        let isSpinning = false;
-
-        image.addEventListener('click', () => {
-            score++;
-            scoreElement.textContent = `Score: ${score}`;
-
-            // Start spinning animation only if not already spinning
-            if (!isSpinning) {
-                image.style.animation = 'spin 1s linear forwards';
-                isSpinning = true;
-
-                // Reset animation after 1 second to allow stacking clicks
-                setTimeout(() => {
-                    image.style.animation = 'spin 0s linear';
-                    isSpinning = false;
-                }, 1000);
-            }
-        });
-    </script>
+    <div class="container">
+        <h1>Click the Cat!</h1>
+        <img id="cat-image" src="cat.png" alt="Cat">
+        <p id="score">Score: 0</p>
+        <div class="upgrades">
+            <h2>Upgrades</h2>
+            <button id="upgrade-button">Autoclicker (10 points)</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
