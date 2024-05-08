@@ -31,7 +31,7 @@
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        transition: transform 0.2s;
+        transition: transform 0.5s; /* Adjusted transition duration */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     #clickButton:hover {
@@ -94,7 +94,7 @@
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../assets/images/scroundsmall.png" alt="Click me!" id="clickButton">
+    <img src="../images/assets/sc2.png" alt="Click me!" id="clickButton">
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
@@ -122,6 +122,7 @@
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
     let clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
     let lastClickTime = Date.now();
+    let lastSpinSpeed = 500; // Default spin speed
 
     const clickButton = document.getElementById('clickButton');
     const scoreValue = document.getElementById('scoreValue');
@@ -153,14 +154,19 @@
         saveProgress();
 
         const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
-        clickButton.style.transitionDuration = spinSpeed + 'ms';
+
+        // Calculate transition duration based on spin speed and previous spin speed
+        const transitionDuration = Math.min(1000, lastSpinSpeed + spinSpeed);
+        lastSpinSpeed = transitionDuration;
+
+        clickButton.style.transitionDuration = transitionDuration + 'ms';
         clickButton.style.transform = 'rotate(180deg)'; // Apply initial rotation
         clickButton.classList.add('spin');
 
         setTimeout(() => {
             clickButton.style.transform = 'rotate(360deg)'; // Apply final rotation
             clickButton.classList.remove('spin');
-        }, spinSpeed);
+        }, transitionDuration);
     });
 
     upgradeButtons.forEach(button => {
