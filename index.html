@@ -37,6 +37,11 @@
     }
     #upgrades {
         margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    .upgrade-tier {
+        margin: 10px;
     }
     .upgrade-btn {
         background-color: #007bff;
@@ -54,20 +59,31 @@
 </head>
 <body>
 
-<h1>Clicker Game
-</h1>
+<h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../assets/images/scround.png" alt="Click me!" id="clickButton">
+    <img src="../images/assets/scround.png" alt="Click me!" id="clickButton">
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
 
 <div id="upgrades">
-    <button class="upgrade-btn" id="upgrade1" data-cost="10">Upgrade 1 (+1 per click)</button>
-    <button class="upgrade-btn" id="upgrade2" data-cost="50">Upgrade 2 (+2 per click)</button>
-    <button class="upgrade-btn" id="upgrade3" data-cost="100">Upgrade 3 (+5 per click)</button>
+    <div class="upgrade-tier">
+        <h3>Tier 1</h3>
+        <button class="upgrade-btn" id="upgrade1" data-cost="10">Upgrade 1 (+1 per click)</button>
+    </div>
+    <div class="upgrade-tier">
+        <h3>Tier 2</h3>
+        <button class="upgrade-btn" id="upgrade2" data-cost="50" disabled>Upgrade 2 (+2 per click)</button>
+    </div>
+    <div class="upgrade-tier">
+        <h3>Tier 3</h3>
+        <button class="upgrade-btn" id="upgrade3" data-cost="100" disabled>Upgrade 3 (+5 per click)</button>
+    </div>
+    <!-- Add more tiers and upgrades as needed -->
 </div>
+
+<button id="rebirthBtn">Rebirth</button>
 
 <script>
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
@@ -77,6 +93,7 @@
     const clickButton = document.getElementById('clickButton');
     const scoreValue = document.getElementById('scoreValue');
     const upgradeButtons = document.querySelectorAll('.upgrade-btn');
+    const rebirthBtn = document.getElementById('rebirthBtn');
 
     // Function to update the score display
     const updateScoreDisplay = () => {
@@ -103,9 +120,11 @@
 
         const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
         clickButton.style.transitionDuration = spinSpeed + 'ms';
+        clickButton.style.transform = 'rotate(180deg)'; // Apply initial rotation
         clickButton.classList.add('spin');
 
         setTimeout(() => {
+            clickButton.style.transform = 'rotate(360deg)'; // Apply final rotation
             clickButton.classList.remove('spin');
         }, spinSpeed);
     });
@@ -120,14 +139,37 @@
                 const upgradeId = button.getAttribute('id');
                 if (upgradeId === 'upgrade1') {
                     clickValue += 1;
+                    document.getElementById('upgrade2').disabled = false;
                 } else if (upgradeId === 'upgrade2') {
                     clickValue += 2;
+                    document.getElementById('upgrade3').disabled = false;
                 } else if (upgradeId === 'upgrade3') {
                     clickValue += 5;
                 }
+                button.disabled = true;
             }
         });
     });
+
+    rebirthBtn.addEventListener('click', () => {
+        if (score >= 1000) { // Example cost for rebirth
+            score = 0;
+            clickValue = 1;
+            updateScoreDisplay();
+            saveProgress();
+            alert('You have been reborn! Your score has been reset.');
+            resetUpgrades();
+        } else {
+            alert('You need at least 1000 points to rebirth.');
+        }
+    });
+
+    // Function to reset upgrades
+    const resetUpgrades = () => {
+        upgradeButtons.forEach(button => {
+            button.disabled = false;
+        });
+    };
 </script>
 
 </body>
