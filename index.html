@@ -46,6 +46,9 @@
         display: flex;
         justify-content: center;
     }
+    .upgrade-tree {
+        margin: 20px;
+    }
     .upgrade-tier {
         margin: 10px;
     }
@@ -87,6 +90,9 @@
     #toggleDarkModeBtn:hover {
         background-color: #0056b3;
     }
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
 </style>
 </head>
 <body class="light">
@@ -100,17 +106,36 @@
 <div id="score">Score: <span id="scoreValue">0</span></div>
 
 <div id="upgrades">
-    <div class="upgrade-tier">
-        <h3>Tier 1</h3>
-        <button class="upgrade-btn" id="upgrade1" data-cost="10">Upgrade 1 (+1 per click)</button>
+    <div class="upgrade-tree" id="clicksTree">
+        <h2>Clicks Path</h2>
+        <div class="upgrade-tier">
+            <h3>Tier 1</h3>
+            <button class="upgrade-btn" id="clickUpgrade1" data-cost="10" data-effect="1">Upgrade 1 (+1 per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 2</h3>
+            <button class="upgrade-btn" id="clickUpgrade2" data-cost="50" disabled data-effect="2">Upgrade 2 (+2 per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 3</h3>
+            <button class="upgrade-btn" id="clickUpgrade3" data-cost="100" disabled data-effect="5">Upgrade 3 (+5 per click)</button>
+        </div>
     </div>
-    <div class="upgrade-tier">
-        <h3>Tier 2</h3>
-        <button class="upgrade-btn" id="upgrade2" data-cost="50" disabled>Upgrade 2 (+2 per click)</button>
-    </div>
-    <div class="upgrade-tier">
-        <h3>Tier 3</h3>
-        <button class="upgrade-btn" id="upgrade3" data-cost="100" disabled>Upgrade 3 (+5 per click)</button>
+
+    <div class="upgrade-tree" id="pointsTree">
+        <h2>Points Path</h2>
+        <div class="upgrade-tier">
+            <h3>Tier 1</h3>
+            <button class="upgrade-btn" id="pointUpgrade1" data-cost="20" data-effect="2">Upgrade 1 (+2 per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 2</h3>
+            <button class="upgrade-btn" id="pointUpgrade2" data-cost="100" disabled data-effect="5">Upgrade 2 (+5 per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 3</h3>
+            <button class="upgrade-btn" id="pointUpgrade3" data-cost="200" disabled data-effect="10">Upgrade 3 (+10 per click)</button>
+        </div>
     </div>
 </div>
 
@@ -121,6 +146,7 @@
 <script>
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
     let clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
+    let rebirthCount = localStorage.getItem('rebirthCount') ? parseInt(localStorage.getItem('rebirthCount')) : 0;
     let lastClickTime = Date.now();
     let lastSpinSpeed = 500; // Default spin speed
 
@@ -139,6 +165,7 @@
     const saveProgress = () => {
         localStorage.setItem('score', score);
         localStorage.setItem('clickValue', clickValue);
+        localStorage.setItem('rebirthCount', rebirthCount);
     };
 
     // Initialize the score display
@@ -160,11 +187,9 @@
         lastSpinSpeed = transitionDuration;
 
         clickButton.style.transitionDuration = transitionDuration + 'ms';
-        clickButton.style.transform = 'rotate(180deg)'; // Apply initial rotation
         clickButton.classList.add('spin');
 
         setTimeout(() => {
-            clickButton.style.transform = 'rotate(360deg)'; // Apply final rotation
             clickButton.classList.remove('spin');
         }, transitionDuration);
     });
@@ -172,20 +197,12 @@
     upgradeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const cost = parseInt(button.getAttribute('data-cost'));
+            const effect = parseInt(button.getAttribute('data-effect'));
             if (score >= cost) {
                 score -= cost;
                 updateScoreDisplay();
                 saveProgress();
-                const upgradeId = button.getAttribute('id');
-                if (upgradeId === 'upgrade1') {
-                    clickValue += 1;
-                    document.getElementById('upgrade2').disabled = false;
-                } else if (upgradeId === 'upgrade2') {
-                    clickValue += 2;
-                    document.getElementById('upgrade3').disabled = false;
-                } else if (upgradeId === 'upgrade3') {
-                    clickValue += 5;
-                }
+                clickValue += effect;
                 button.disabled = true;
             }
         });
@@ -194,7 +211,8 @@
     rebirthBtn.addEventListener('click', () => {
         if (score >= 1000) { // Example cost for rebirth
             score = 0;
-            clickValue = 1;
+            clickValue = 1 + rebirthCount * 2; // Adjust click value after each rebirth
+            rebirthCount++;
             updateScoreDisplay();
             saveProgress();
             alert('You have been reborn! Your score has been reset.');
