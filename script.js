@@ -1,31 +1,14 @@
-const scoreElement = document.getElementById("score");
-const catImage = document.getElementById("cat-image");
-const upgradeButton = document.getElementById("upgrade-button");
+const clickButton = document.getElementById('click-button');
+const pointsDisplay = document.getElementById('points-display');
 
-let score = 0;
-let autoClicker = false;
+let points = 0;
 
-function clickCat() {
-  score++;
-  scoreElement.textContent = `Score: ${score}`;
-}
-
-function autoClick() {
-  if (autoClicker) {
-    clickCat();
-    setTimeout(autoClick, 1000); // Click every second
-  }
-}
-
-catImage.addEventListener("click", clickCat);
-
-upgradeButton.addEventListener("click", () => {
-  if (score >= 10) {
-    score -= 10;
-    scoreElement.textContent = `Score: ${score}`;
-    autoClicker = true;
-    upgradeButton.textContent = "Autoclicker (Active)";
-    upgradeButton.disabled = true;
-    autoClick();
-  }
+clickButton.addEventListener('click', () => {
+  points++;
+  pointsDisplay.textContent = `Points: ${points}`;
+  // Add click animation or sound effects here
 });
+
+// Upgrade functionality can be added here
+// This will involve creating upgrade buttons, tracking costs, 
+// and implementing their effects on points generation
