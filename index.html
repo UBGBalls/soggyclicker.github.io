@@ -1,49 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Clicker Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clicker Game</title>
+  <style>
+    #click-button {
+      transition: transform 0.2s ease-in-out;
+    }
+  </style>
 </head>
 <body>
-    <h1>Clicker Game</h1>
-    <button id="clickerButton">Click me!</button>
-    <button id="doubleScoreButton">Double Score per Click (Cost: 50)</button>
-    <button id="autoClickerButton">Auto Clicker (Cost: 100)</button>
-    <p id="score">Score: 0</p>
+  <h1>Clicker!</h1>
+  <p>Clicks: <span id="clicks">0</span></p>
 
-    <script>
-        var score = 0;
-        var scorePerClick = 1;
-        var autoClickers = 0;
+  <div id="upgrades">
+    <h2>Upgrades</h2>
+    <button id="upgrade-button">Cursor (10 clicks) - +1 click/click</button>
+  </div>
 
-        document.getElementById('clickerButton').addEventListener('click', function() {
-            score += scorePerClick;
-            updateScore();
-        });
+  <button id="click-button">Click Me</button>
 
-        document.getElementById('doubleScoreButton').addEventListener('click', function() {
-            if (score >= 50) {
-                score -= 50;
-                scorePerClick *= 2;
-                updateScore();
-            }
-        });
-
-        document.getElementById('autoClickerButton').addEventListener('click', function() {
-            if (score >= 100) {
-                score -= 100;
-                autoClickers += 1;
-                updateScore();
-            }
-        });
-
-        setInterval(function() {
-            score += autoClickers * scorePerClick;
-            updateScore();
-        }, 1000);
-
-        function updateScore() {
-            document.getElementById('score').textContent = 'Score: ' + score;
-        }
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>
