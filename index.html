@@ -13,21 +13,40 @@
             cursor: pointer;
             width: 200px;
             height: 200px;
+            animation: spin 0s linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
     <h1>Click the Cat!</h1>
-    <img id="image" src="cat.png" alt="Cat">
+    <img id="image" src="../assets/images/scround.png" alt="Cat">
     <p id="score">Score: 0</p>
     <script>
         const image = document.getElementById('image');
         const scoreElement = document.getElementById('score');
         let score = 0;
+        let isSpinning = false;
 
         image.addEventListener('click', () => {
             score++;
             scoreElement.textContent = `Score: ${score}`;
+
+            // Start spinning animation only if not already spinning
+            if (!isSpinning) {
+                image.style.animation = 'spin 1s linear forwards';
+                isSpinning = true;
+
+                // Reset animation after 1 second to allow stacking clicks
+                setTimeout(() => {
+                    image.style.animation = 'spin 0s linear';
+                    isSpinning = false;
+                }, 1000);
+            }
         });
     </script>
 </body>
