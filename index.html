@@ -10,11 +10,13 @@
         text-align: center;
         margin: 0;
         padding: 0;
-        background-color: #f5f5f5;
+        background-color: #f2f2f2;
     }
     h1 {
         color: #333;
         margin-top: 20px;
+        font-size: 36px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
     #header-img {
         width: 200px;
@@ -23,7 +25,7 @@
     #clickArea {
         margin-top: 30px;
     }
-    #clickButton {
+    .clicker-button {
         cursor: pointer;
         width: 200px;
         height: 200px;
@@ -34,23 +36,13 @@
         color: #fff;
         border: none;
         font-size: 24px;
-    }
-    #clickButton:hover {
-        transform: scale(1.1);
-    }
-    #score {
-        font-size: 24px;
-        margin-top: 20px;
-    }
-    .upgrade-tree {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        outline: none;
         margin: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .upgrade-tier {
-        margin: 10px;
+    .clicker-button:hover {
+        transform: scale(1.1);
     }
     .upgrade-btn {
         background-color: #007bff;
@@ -61,6 +53,9 @@
         cursor: pointer;
         margin: 5px;
         transition: background-color 0.3s, transform 0.2s;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     .upgrade-btn:disabled {
         background-color: #6c757d;
@@ -79,6 +74,9 @@
         cursor: pointer;
         margin-top: 20px;
         transition: background-color 0.3s, transform 0.2s;
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     #rebirthBtn:hover {
         background-color: #c82333;
@@ -95,6 +93,9 @@
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s, transform 0.2s;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
     #toggleDarkModeBtn:hover {
         background-color: #0056b3;
@@ -117,42 +118,15 @@
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <button id="clickButton">Click me!</button>
+    <button id="clickButton" class="clicker-button">Click me!</button>
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
 
 <div id="upgrades">
-    <div class="upgrade-tree" id="clicksTree">
-        <h2>Clicks Path</h2>
-        <div class="upgrade-tier">
-            <h3>Tier 1</h3>
-            <button class="upgrade-btn" id="clickUpgrade1" data-cost="10" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
-        </div>
-        <div class="upgrade-tier">
-            <h3>Tier 2</h3>
-            <button class="upgrade-btn" id="clickUpgrade2" data-cost="50" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
-        </div>
-        <div class="upgrade-tier">
-            <h3>Tier 3</h3>
-            <button class="upgrade-btn" id="clickUpgrade3" data-cost="100" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
-        </div>
-    </div>
-
-    <div class="upgrade-tree" id="pointsTree">
-        <h2>Points Path</h2>
-        <div class="upgrade-tier">
-            <h3>Tier 1</h3>
-            <button class="upgrade-btn" id="pointUpgrade1" data-cost="20" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
-        </div>
-        <div class="upgrade-tier">
-            <h3>Tier 2</h3>
-            <button class="upgrade-btn" id="pointUpgrade2" data-cost="100" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
-        </div>
-        <div class="upgrade-tier">
-            <h3>Tier 3</h3>
-            <button class="upgrade-btn" id="pointUpgrade3" data-cost="200" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
-        </div>
+    <div id="upgradeButtons">
+        <button class="upgrade-btn" id="clickUpgrade" data-multiplier="1.1" data-base-cost="10">Upgrade (+10% per click)</button>
+        <button class="upgrade-btn" id="pointUpgrade" data-multiplier="1.1" data-base-cost="20">Upgrade (+10% per click)</button>
     </div>
 </div>
 
@@ -218,15 +192,18 @@
 
     upgradeButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const cost = parseInt(button.getAttribute('data-cost'));
             const multiplier = parseFloat(button.getAttribute('data-multiplier'));
-            if (score >= cost) {
-                score -= cost;
+            const baseCost = parseInt(button.getAttribute('data-base-cost'));
+            const costMultiplier = 1.2; // Increase cost by 20% each time
+            const currentCost = parseInt(button.textContent.split(':')[1]); // Get current cost from button text
+            const newCost = Math.ceil(currentCost * costMultiplier); // Calculate new cost
+
+            if (score >= currentCost) {
+                score -= currentCost;
+                clickValue *= multiplier;
+                button.textContent = `Upgrade: ${newCost}`; // Update button text with new cost
                 updateScoreDisplay();
                 saveProgress();
-                clickValue *= multiplier;
-                button.disabled = true; // Disable the button after purchase
-                button.textContent = "Purchased"; // Change button text to indicate purchase
             } else {
                 alert('You need more points to purchase this upgrade!');
             }
@@ -250,8 +227,8 @@
     // Function to reset upgrades
     const resetUpgrades = () => {
         upgradeButtons.forEach(button => {
-            button.disabled = false;
-            button.textContent = "Upgrade"; // Reset button text
+            const baseCost = parseInt(button.getAttribute('data-base-cost'));
+            button.textContent = `Upgrade: ${baseCost}`; // Reset button text to base cost
         });
     };
 
