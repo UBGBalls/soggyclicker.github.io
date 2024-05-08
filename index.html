@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Soggy Clicker</title>
+<title>Clicker Game</title>
 <style>
     body {
         font-family: Arial, sans-serif;
         text-align: center;
         margin: 0;
         padding: 0;
-        background-color: blue; /* Add your background image URL here */
+        background-image: url('background.jpg'); /* Add your background image URL here */
         background-size: cover;
         background-position: center;
         transition: background-color 0.3s, color 0.3s;
@@ -23,25 +23,147 @@
         background-color: rgba(0, 0, 0, 0.8); /* Add a semi-transparent black overlay for better contrast */
         color: #f8f9fa;
     }
-    /* Add other styles here */
+    h1 {
+        margin-top: 50px;
+        color: #333;
+    }
+    #header-img {
+        width: 200px; /* Adjust the width of the header image */
+        height: auto;
+    }
+    #clickArea {
+        margin-top: 30px;
+    }
+    #clickButton {
+        cursor: pointer;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        transition: transform 0.5s; /* Adjusted transition duration */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    #clickButton:hover {
+        transform: scale(1.1);
+    }
+    #score {
+        font-size: 24px;
+        margin-top: 20px;
+    }
+    #upgrades {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+    .upgrade-tree {
+        margin: 20px;
+    }
+    .upgrade-tier {
+        margin: 10px;
+    }
+    .upgrade-btn {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    .upgrade-btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+    .upgrade-btn:active {
+        transform: scale(0.95);
+    }
+    #rebirthBtn {
+        background-color: #dc3545;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    #rebirthBtn:hover {
+        background-color: #c82333;
+        transform: scale(1.05);
+    }
+    #rebirthBtn:active {
+        transform: scale(0.95);
+    }
+    #toggleDarkModeBtn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    #toggleDarkModeBtn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+    #toggleDarkModeBtn:active {
+        transform: scale(0.95);
+    }
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
 </style>
 </head>
 <body class="light">
 
-<header>
+<div id="header">
     <img src="header-image.jpg" alt="Header Image" id="header-img"> <!-- Add your header image here -->
-</header>
+</div>
 
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../assets/images/sc3.png" alt="Click me!" id="clickButton">
+    <img src="../images/assets/scround.png" alt="Click me!" id="clickButton">
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
 
 <div id="upgrades">
-    <!-- Upgrade tree HTML here -->
+    <div class="upgrade-tree" id="clicksTree">
+        <h2>Clicks Path</h2>
+        <div class="upgrade-tier">
+            <h3>Tier 1</h3>
+            <button class="upgrade-btn" id="clickUpgrade1" data-cost="10" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 2</h3>
+            <button class="upgrade-btn" id="clickUpgrade2" data-cost="50" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 3</h3>
+            <button class="upgrade-btn" id="clickUpgrade3" data-cost="100" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
+        </div>
+    </div>
+
+    <div class="upgrade-tree" id="pointsTree">
+        <h2>Points Path</h2>
+        <div class="upgrade-tier">
+            <h3>Tier 1</h3>
+            <button class="upgrade-btn" id="pointUpgrade1" data-cost="20" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 2</h3>
+            <button class="upgrade-btn" id="pointUpgrade2" data-cost="100" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
+        </div>
+        <div class="upgrade-tier">
+            <h3>Tier 3</h3>
+            <button class="upgrade-btn" id="pointUpgrade3" data-cost="200" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
+        </div>
+    </div>
 </div>
 
 <button id="rebirthBtn">Rebirth</button>
@@ -49,93 +171,100 @@
 <button id="toggleDarkModeBtn">Toggle Dark Mode</button>
 
 <script>
-    // Constants
-    const SCORE_KEY = 'score';
-    const CLICK_VALUE_KEY = 'clickValue';
-    const REBIRTH_COUNT_KEY = 'rebirthCount';
+    let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
+    let clickValue = localStorage.getItem('clickValue') ? parseFloat(localStorage.getItem('clickValue')) : 1;
+    let rebirthCount = localStorage.getItem('rebirthCount') ? parseInt(localStorage.getItem('rebirthCount')) : 0;
+    let lastClickTime = Date.now();
+    let lastSpinSpeed = 500; // Default spin speed
+    let spinInterval = null;
 
-    // Variables
-    let score = parseInt(localStorage.getItem(SCORE_KEY)) || 0;
-    let clickValue = parseFloat(localStorage.getItem(CLICK_VALUE_KEY)) || 1;
-    let rebirthCount = parseInt(localStorage.getItem(REBIRTH_COUNT_KEY)) || 0;
-
-    // DOM Elements
     const clickButton = document.getElementById('clickButton');
     const scoreValue = document.getElementById('scoreValue');
     const upgradeButtons = document.querySelectorAll('.upgrade-btn');
     const rebirthBtn = document.getElementById('rebirthBtn');
     const toggleDarkModeBtn = document.getElementById('toggleDarkModeBtn');
 
-    // Function to update score display
-    function updateScoreDisplay() {
+    // Function to update the score display
+    const updateScoreDisplay = () => {
         scoreValue.textContent = score;
-    }
+    };
 
     // Function to save progress to local storage
-    function saveProgress() {
-        localStorage.setItem(SCORE_KEY, score);
-        localStorage.setItem(CLICK_VALUE_KEY, clickValue);
-        localStorage.setItem(REBIRTH_COUNT_KEY, rebirthCount);
-    }
+    const saveProgress = () => {
+        localStorage.setItem('score', score);
+        localStorage.setItem('clickValue', clickValue);
+        localStorage.setItem('rebirthCount', rebirthCount);
+    };
 
-    // Function to handle click event
-    function handleClick() {
+    // Initialize the score display
+    updateScoreDisplay();
+
+    clickButton.addEventListener('mousedown', () => {
+        const currentTime = Date.now();
+        const timeDifference = currentTime - lastClickTime;
+        lastClickTime = currentTime;
+
         score += clickValue;
         updateScoreDisplay();
         saveProgress();
-    }
 
-    // Initialize the game
-    function initializeGame() {
-        updateScoreDisplay();
+        // Calculate spin speed based on time difference between clicks
+        const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
 
-        clickButton.addEventListener('click', handleClick);
+        clearInterval(spinInterval); // Clear previous spin interval
+        spinInterval = setInterval(() => {
+            clickButton.style.transitionDuration = spinSpeed + 'ms';
+            clickButton.classList.add('spin');
 
-        // Add event listeners for upgrade buttons
-        upgradeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const cost = parseInt(button.dataset.cost);
-                const multiplier = parseFloat(button.dataset.multiplier);
-                if (score >= cost) {
-                    score -= cost;
-                    updateScoreDisplay();
-                    saveProgress();
-                    clickValue *= multiplier;
-                    button.disabled = true;
-                }
-            });
-        });
+            setTimeout(() => {
+                clickButton.classList.remove('spin');
+            }, spinSpeed);
+        }, spinSpeed);
+    });
 
-        // Add event listener for rebirth button
-        rebirthBtn.addEventListener('click', () => {
-            if (score >= 1000) { // Example cost for rebirth
-                score = 0;
-                clickValue = 1 + rebirthCount * 0.1; // Adjust click value after each rebirth
-                rebirthCount++;
+    clickButton.addEventListener('mouseup', () => {
+        clearInterval(spinInterval); // Stop spinning when mouse released
+    });
+
+    upgradeButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const cost = parseInt(button.getAttribute('data-cost'));
+            const multiplier = parseFloat(button.getAttribute('data-multiplier'));
+            if (score >= cost) {
+                score -= cost;
                 updateScoreDisplay();
                 saveProgress();
-                alert('You have been reborn! Your score has been reset.');
-                resetUpgrades();
-            } else {
-                alert('You need at least 1000 points to rebirth.');
+                clickValue *= multiplier;
+                button.disabled = true;
             }
         });
+    });
 
-        // Add event listener for dark mode toggle button
-        toggleDarkModeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-        });
-    }
+    rebirthBtn.addEventListener('click', () => {
+        if (score >= 1000) { // Example cost for rebirth
+            score = 0;
+            clickValue = 1 + rebirthCount * 0.1; // Adjust click value after each rebirth
+            rebirthCount++;
+            updateScoreDisplay();
+            saveProgress();
+            alert('You have been reborn! Your score has been reset.');
+            resetUpgrades();
+        } else {
+            alert('You need at least 1000 points to rebirth.');
+        }
+    });
 
-    // Reset upgrades function
-    function resetUpgrades() {
+    // Function to reset upgrades
+    const resetUpgrades = () => {
         upgradeButtons.forEach(button => {
             button.disabled = false;
         });
-    }
+    };
 
-    // Call initializeGame function when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initializeGame);
+    // Toggle dark mode
+    toggleDarkModeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('dark');
+    });
 </script>
 
 </body>
