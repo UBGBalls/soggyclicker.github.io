@@ -6,29 +6,18 @@
 <title>Clicker Game</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         text-align: center;
         margin: 0;
         padding: 0;
-        background-image: url('background.jpg'); /* Add your background image URL here */
-        background-size: cover;
-        background-position: center;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    .light {
-        background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white overlay for better contrast */
-        color: #333;
-    }
-    .dark {
-        background-color: rgba(0, 0, 0, 0.8); /* Add a semi-transparent black overlay for better contrast */
-        color: #f8f9fa;
+        background-color: #f5f5f5;
     }
     h1 {
-        margin-top: 50px;
         color: #333;
+        margin-top: 20px;
     }
     #header-img {
-        width: 200px; /* Adjust the width of the header image */
+        width: 200px;
         height: auto;
     }
     #clickArea {
@@ -39,8 +28,12 @@
         width: 200px;
         height: 200px;
         border-radius: 50%;
-        transition: transform 0.5s; /* Adjusted transition duration */
+        transition: transform 0.5s;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        font-size: 24px;
     }
     #clickButton:hover {
         transform: scale(1.1);
@@ -49,13 +42,12 @@
         font-size: 24px;
         margin-top: 20px;
     }
-    #upgrades {
-        margin-top: 20px;
-        display: flex;
-        justify-content: center;
-    }
     .upgrade-tree {
         margin: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .upgrade-tier {
         margin: 10px;
@@ -70,12 +62,13 @@
         margin: 5px;
         transition: background-color 0.3s, transform 0.2s;
     }
+    .upgrade-btn:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
     .upgrade-btn:hover {
         background-color: #0056b3;
         transform: scale(1.05);
-    }
-    .upgrade-btn:active {
-        transform: scale(0.95);
     }
     #rebirthBtn {
         background-color: #dc3545;
@@ -90,9 +83,6 @@
     #rebirthBtn:hover {
         background-color: #c82333;
         transform: scale(1.05);
-    }
-    #rebirthBtn:active {
-        transform: scale(0.95);
     }
     #toggleDarkModeBtn {
         position: fixed;
@@ -118,16 +108,16 @@
     }
 </style>
 </head>
-<body class="light">
+<body>
 
 <div id="header">
-    <img src="header-image.jpg" alt="Header Image" id="header-img"> <!-- Add your header image here -->
+    <img src="header-image.jpg" alt="Header Image" id="header-img">
 </div>
 
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../images/assets/scround.png" alt="Click me!" id="clickButton">
+    <button id="clickButton">Click me!</button>
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
@@ -235,7 +225,10 @@
                 updateScoreDisplay();
                 saveProgress();
                 clickValue *= multiplier;
-                button.disabled = true;
+                button.disabled = true; // Disable the button after purchase
+                button.textContent = "Purchased"; // Change button text to indicate purchase
+            } else {
+                alert('You need more points to purchase this upgrade!');
             }
         });
     });
@@ -258,6 +251,7 @@
     const resetUpgrades = () => {
         upgradeButtons.forEach(button => {
             button.disabled = false;
+            button.textContent = "Upgrade"; // Reset button text
         });
     };
 
