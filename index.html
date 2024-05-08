@@ -60,9 +60,14 @@
         border-radius: 5px;
         cursor: pointer;
         margin: 5px;
+        transition: background-color 0.3s, transform 0.2s;
     }
     .upgrade-btn:hover {
         background-color: #0056b3;
+        transform: scale(1.05);
+    }
+    .upgrade-btn:active {
+        transform: scale(0.95);
     }
     #rebirthBtn {
         background-color: #dc3545;
@@ -72,9 +77,14 @@
         border-radius: 5px;
         cursor: pointer;
         margin-top: 20px;
+        transition: background-color 0.3s, transform 0.2s;
     }
     #rebirthBtn:hover {
         background-color: #c82333;
+        transform: scale(1.05);
+    }
+    #rebirthBtn:active {
+        transform: scale(0.95);
     }
     #toggleDarkModeBtn {
         position: fixed;
@@ -86,9 +96,14 @@
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
     }
     #toggleDarkModeBtn:hover {
         background-color: #0056b3;
+        transform: scale(1.05);
+    }
+    #toggleDarkModeBtn:active {
+        transform: scale(0.95);
     }
     @keyframes spin {
         100% { transform: rotate(360deg); }
@@ -100,7 +115,7 @@
 <h1>Clicker Game</h1>
 
 <div id="clickArea">
-    <img src="../assets/images/sc2.png" alt="Click me!" id="clickButton">
+    <img src="../assets/images/sc4.png" alt="Click me!" id="clickButton">
 </div>
 
 <div id="score">Score: <span id="scoreValue">0</span></div>
@@ -110,15 +125,15 @@
         <h2>Clicks Path</h2>
         <div class="upgrade-tier">
             <h3>Tier 1</h3>
-            <button class="upgrade-btn" id="clickUpgrade1" data-cost="10" data-effect="1">Upgrade 1 (+1 per click)</button>
+            <button class="upgrade-btn" id="clickUpgrade1" data-cost="10" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
         </div>
         <div class="upgrade-tier">
             <h3>Tier 2</h3>
-            <button class="upgrade-btn" id="clickUpgrade2" data-cost="50" disabled data-effect="2">Upgrade 2 (+2 per click)</button>
+            <button class="upgrade-btn" id="clickUpgrade2" data-cost="50" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
         </div>
         <div class="upgrade-tier">
             <h3>Tier 3</h3>
-            <button class="upgrade-btn" id="clickUpgrade3" data-cost="100" disabled data-effect="5">Upgrade 3 (+5 per click)</button>
+            <button class="upgrade-btn" id="clickUpgrade3" data-cost="100" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
         </div>
     </div>
 
@@ -126,15 +141,15 @@
         <h2>Points Path</h2>
         <div class="upgrade-tier">
             <h3>Tier 1</h3>
-            <button class="upgrade-btn" id="pointUpgrade1" data-cost="20" data-effect="2">Upgrade 1 (+2 per click)</button>
+            <button class="upgrade-btn" id="pointUpgrade1" data-cost="20" data-multiplier="1.1">Upgrade 1 (+10% per click)</button>
         </div>
         <div class="upgrade-tier">
             <h3>Tier 2</h3>
-            <button class="upgrade-btn" id="pointUpgrade2" data-cost="100" disabled data-effect="5">Upgrade 2 (+5 per click)</button>
+            <button class="upgrade-btn" id="pointUpgrade2" data-cost="100" disabled data-multiplier="1.2">Upgrade 2 (+20% per click)</button>
         </div>
         <div class="upgrade-tier">
             <h3>Tier 3</h3>
-            <button class="upgrade-btn" id="pointUpgrade3" data-cost="200" disabled data-effect="10">Upgrade 3 (+10 per click)</button>
+            <button class="upgrade-btn" id="pointUpgrade3" data-cost="200" disabled data-multiplier="1.5">Upgrade 3 (+50% per click)</button>
         </div>
     </div>
 </div>
@@ -145,7 +160,7 @@
 
 <script>
     let score = localStorage.getItem('score') ? parseInt(localStorage.getItem('score')) : 0;
-    let clickValue = localStorage.getItem('clickValue') ? parseInt(localStorage.getItem('clickValue')) : 1;
+    let clickValue = localStorage.getItem('clickValue') ? parseFloat(localStorage.getItem('clickValue')) : 1;
     let rebirthCount = localStorage.getItem('rebirthCount') ? parseInt(localStorage.getItem('rebirthCount')) : 0;
     let lastClickTime = Date.now();
     let lastSpinSpeed = 500; // Default spin speed
@@ -202,12 +217,12 @@
     upgradeButtons.forEach(button => {
         button.addEventListener('click', () => {
             const cost = parseInt(button.getAttribute('data-cost'));
-            const effect = parseInt(button.getAttribute('data-effect'));
+            const multiplier = parseFloat(button.getAttribute('data-multiplier'));
             if (score >= cost) {
                 score -= cost;
                 updateScoreDisplay();
                 saveProgress();
-                clickValue += effect;
+                clickValue *= multiplier;
                 button.disabled = true;
             }
         });
@@ -216,7 +231,7 @@
     rebirthBtn.addEventListener('click', () => {
         if (score >= 1000) { // Example cost for rebirth
             score = 0;
-            clickValue = 1 + rebirthCount * 2; // Adjust click value after each rebirth
+            clickValue = 1 + rebirthCount * 0.1; // Adjust click value after each rebirth
             rebirthCount++;
             updateScoreDisplay();
             saveProgress();
