@@ -149,6 +149,7 @@
     let rebirthCount = localStorage.getItem('rebirthCount') ? parseInt(localStorage.getItem('rebirthCount')) : 0;
     let lastClickTime = Date.now();
     let lastSpinSpeed = 500; // Default spin speed
+    let spinInterval = null;
 
     const clickButton = document.getElementById('clickButton');
     const scoreValue = document.getElementById('scoreValue');
@@ -171,7 +172,7 @@
     // Initialize the score display
     updateScoreDisplay();
 
-    clickButton.addEventListener('click', () => {
+    clickButton.addEventListener('mousedown', () => {
         const currentTime = Date.now();
         const timeDifference = currentTime - lastClickTime;
         lastClickTime = currentTime;
@@ -180,18 +181,22 @@
         updateScoreDisplay();
         saveProgress();
 
+        // Calculate spin speed based on time difference between clicks
         const spinSpeed = Math.max(200 - timeDifference, 50); // Adjust this formula as needed
 
-        // Calculate transition duration based on spin speed and previous spin speed
-        const transitionDuration = Math.min(1000, lastSpinSpeed + spinSpeed);
-        lastSpinSpeed = transitionDuration;
+        clearInterval(spinInterval); // Clear previous spin interval
+        spinInterval = setInterval(() => {
+            clickButton.style.transitionDuration = spinSpeed + 'ms';
+            clickButton.classList.add('spin');
 
-        clickButton.style.transitionDuration = transitionDuration + 'ms';
-        clickButton.classList.add('spin');
+            setTimeout(() => {
+                clickButton.classList.remove('spin');
+            }, spinSpeed);
+        }, spinSpeed);
+    });
 
-        setTimeout(() => {
-            clickButton.classList.remove('spin');
-        }, transitionDuration);
+    clickButton.addEventListener('mouseup', () => {
+        clearInterval(spinInterval); // Stop spinning when mouse released
     });
 
     upgradeButtons.forEach(button => {
